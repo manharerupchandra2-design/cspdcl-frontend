@@ -23,7 +23,7 @@ class HistoryItem {
   final String consumerNo;
   final String meterNo;
   final int currentReading;
-  final String meterPhoto;
+  final String? meterPhoto;
   final String createdAt;
 
   HistoryItem({
@@ -43,7 +43,7 @@ class HistoryItem {
       consumerNo: json["consumer_no"] ?? "",
       meterNo: json["meter_no"] ?? "",
       currentReading: json["current_reading"] ?? 0,
-      meterPhoto: json["meter_photo"] ?? "",
+      meterPhoto: json["meter_photo"],
       createdAt: json["created_at"] ?? "",
     );
   }

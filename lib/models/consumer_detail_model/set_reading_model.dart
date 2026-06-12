@@ -1,24 +1,26 @@
+import 'dart:io';
+
 class SetReadingRequest {
   final int meterId;
   final int readerId;
   final int currentReading;
-  final String meterPhoto;
+  final File? meterPhoto;
 
   SetReadingRequest({
     required this.meterId,
     required this.readerId,
     required this.currentReading,
-    required this.meterPhoto,
+    this.meterPhoto,
   });
-
-  Map<String, dynamic> toJson() {
-    return {
-      "meter_id": meterId,
-      "reader_id": readerId,
-      "current_reading": currentReading,
-      "meter_photo": meterPhoto,
-    };
-  }
+  //
+  // Map<String, dynamic> toJson() {
+  //   return {
+  //     "meter_id": meterId,
+  //     "reader_id": readerId,
+  //     "current_reading": currentReading,
+  //     "meter_photo": meterPhoto,
+  //   };
+  // }
 }
 
 class SetReadingResponse {

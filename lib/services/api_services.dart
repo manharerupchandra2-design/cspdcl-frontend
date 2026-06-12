@@ -4,6 +4,8 @@ import 'dart:io';
 
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
+import 'package:sample1/models/common_res_model.dart';
 import 'package:sample1/models/login_model.dart';
 import 'package:sample1/models/signup_model.dart';
 
@@ -15,17 +17,19 @@ import '../models/consumer_model/consumer_response.dart';
 import '../models/dashboard_controller/dashboard_controller.dart';
 
 class ApiServices {
-  static const String baseUrl = "http://192.168.1.51:5000/api";
+  static const String baseUrl = "https://cspdcl-backend.onrender.com/api";
   static final box = GetStorage();
   static String get token => box.read('token');
 
   static Future<LoginResponse?> login(LoginRequest requester) async {
     try {
-      final response = await http.post(
-        Uri.parse("$baseUrl/meter_reader/login"),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode(requester.toJson())
-      ).timeout(Duration(seconds: 10));
+      final response = await http
+          .post(
+            Uri.parse("$baseUrl/meter_reader/login"),
+            headers: {"Content-Type": "application/json"},
+            body: jsonEncode(requester.toJson()),
+          )
+          .timeout(Duration(seconds: 10));
       final result = jsonDecode(response.body);
       print(response.body);
       if (response.statusCode == 200 && result['success'] == true) {
@@ -154,11 +158,10 @@ class ApiServices {
 
   static Future<DashboardResponse?> getDashboard() async {
     try {
-      final response = await http
-          .get(
-            Uri.parse("$baseUrl/dashboard"),
-            headers: {"Authorization": "bearer $token"},
-          );
+      final response = await http.get(
+        Uri.parse("$baseUrl/dashboard"),
+        headers: {"Authorization": "bearer $token"},
+      );
 
       final result = jsonDecode(response.body);
 
@@ -197,10 +200,12 @@ class ApiServices {
     int consumerId,
   ) async {
     try {
-      final response = await http.get(
-        Uri.parse("$baseUrl/consumers/$consumerId"),
-        headers: {"Authorization": "bearer $token"},
-      ).timeout(Duration(seconds: 10));
+      final response = await http
+          .get(
+            Uri.parse("$baseUrl/consumers/$consumerId"),
+            headers: {"Authorization": "bearer $token"},
+          )
+          .timeout(Duration(seconds: 10));
       print("DATA IS :  ${response.body}");
       final result = jsonDecode(response.body);
 
@@ -213,26 +218,79 @@ class ApiServices {
       rethrow;
     }
   }
+  //
+  // static Future<SetReadingResponse?> setReading(
+  //   int consumerId,
+  //   SetReadingRequest request,
+  // ) async {
+  //   try {
+  //     final response = await http
+  //         .post(
+  //           Uri.parse("$baseUrl/readings/$consumerId"),
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //             "Authorization": "bearer $token",
+  //           },
+  //           body: jsonEncode(request.toJson()),
+  //         )
+  //         .timeout(const Duration(seconds: 15));
+  //     print(response.body);
+  //     final result = jsonDecode(response.body);
+  //
+  //     if (response.statusCode == 200 && result['success'] == true) {
+  //       return SetReadingResponse.fromJson(result);
+  //     }
+  //
+  //     throw Exception(result['message']);
+  //   } on SocketException {
+  //     throw Exception("No Internet");
+  //   } on TimeoutException {
+  //     throw Exception("Server Timeout");
+  //   }
+  // }
 
   static Future<SetReadingResponse?> setReading(
     int consumerId,
     SetReadingRequest request,
   ) async {
     try {
-      final response = await http
-          .post(
-            Uri.parse("$baseUrl/readings/$consumerId"),
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": "bearer $token",
-            },
-            body: jsonEncode(request.toJson()),
-          )
-          .timeout(const Duration(seconds: 15));
-      print(response.body);
-      final result = jsonDecode(response.body);
+      final uri = Uri.parse("$baseUrl/readings/$consumerId");
 
-      if (response.statusCode == 200 && result['success'] == true) {
+      //MultipartRequest
+      final multipartRequest = http.MultipartRequest('POST', uri);
+
+      // Auth header
+      // multipartRequest.headers['Authorization'] = 'Bearer $token';
+
+      // Text fields
+      multipartRequest.fields['meter_id'] = request.meterId.toString();
+      multipartRequest.fields['reader_id'] = request.readerId.toString();
+      multipartRequest.fields['current_reading'] = request.currentReading
+          .toString();
+
+      // Photo
+      if (request.meterPhoto != null) {
+        multipartRequest.files.add(
+          await http.MultipartFile.fromPath(
+            'meter_photo',
+            contentType: MediaType(
+              'image',
+              'jpeg',
+            ), // backend: upload.single('meter_photo')
+            request.meterPhoto!.path,
+          ),
+        );
+      }
+
+      final streamed = await multipartRequest.send().timeout(
+        const Duration(seconds: 15),
+      );
+      final body = await streamed.stream.bytesToString();
+      print(body);
+
+      final result = jsonDecode(body);
+
+      if (streamed.statusCode == 200 && result['success'] == true) {
         return SetReadingResponse.fromJson(result);
       }
 
@@ -274,6 +332,25 @@ class ApiServices {
       return HistoryResponse.fromJson(result).data;
     }
 
+    throw Exception("Failed");
+  }
+
+  static Future<CommonResModel> editReading(
+    int currentReading,
+    int readingId,
+  ) async {
+    print(readingId);
+    final response = await http.put(
+      Uri.parse("$baseUrl/readings/editReading/$readingId"),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({"current_reading": currentReading}),
+    );
+
+    final result = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      return CommonResModel.fromJson(result);
+    }
     throw Exception("Failed");
   }
 }

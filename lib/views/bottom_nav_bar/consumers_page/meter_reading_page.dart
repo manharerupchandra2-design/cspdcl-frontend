@@ -227,6 +227,7 @@
 // }
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sample1/controllers/consumer_controller/edit_reading_controller.dart';
 import '../../../controllers/consumer_controller/submit_reading_controller.dart';
 import '../../../core/theme/theme.dart'; // ✅ ek import
 import '../../../models/consumer_detail_model/previous_bill.dart';
@@ -244,12 +245,10 @@ class MeterReadingPage extends StatelessWidget {
   });
 
   late final SubmitReadingController ctrl = Get.put(
-    SubmitReadingController(consumerId: consumer.id, meterId: consumer.meterId)
+    SubmitReadingController(consumerId: consumer.id, meterId: consumer.meterId),
   );
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(title: const Text("Meter Reading")),
 
@@ -401,12 +400,61 @@ class MeterReadingPage extends StatelessWidget {
 
             Gap.h12,
 
-            AppTextField(
-              label: "Remark (Optional)",
-              prefixIcon: Icons.note_outlined,
-              maxLines: 3,
-            ),
-
+            //Edit Reading
+            // Obx(
+            //   () => AppButton(
+            //     label: "Edit Reading",
+            //     icon: Icons.edit,
+            //     isLoading: ctrl.isLoading.value,
+            //     onPressed: () async {
+            //       final editCtrl = Get.put(
+            //         EditReadingController(ctrl.readingId.value),
+            //       );
+            //       Get.dialog(
+            //         AlertDialog(
+            //           title: Text("Edit Reading"),
+            //           content: AppTextField(
+            //             controller: editCtrl.editReadingController,
+            //             label: "Current Reading (kWh)",
+            //             hint: "e.g. 1450",
+            //             prefixIcon: Icons.speed,
+            //             keyboardType: TextInputType.number,
+            //           ),
+            //           actions: [
+            //             Row(
+            //               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //               children: [
+            //                 TextButton(
+            //                   onPressed: () async {
+            //                     await editCtrl.editReading();
+            //                     Get.snackbar(
+            //                       editCtrl.isSuccess.value ? "Done ✓" : "Error",
+            //                       editCtrl.message.value,
+            //                       backgroundColor: ctrl.isSuccess.value
+            //                           ? AppColors.successLight
+            //                           : AppColors.errorLight,
+            //                       colorText: ctrl.isSuccess.value
+            //                           ? AppColors.success
+            //                           : AppColors.error,
+            //                     );
+            //
+            //                   },
+            //                   child: Text("save"),
+            //                 ),
+            //                 TextButton(
+            //                   onPressed: () {
+            //                     Get.back();
+            //                   },
+            //                   child: Text("cancel"),
+            //                 ),
+            //               ],
+            //             ),
+            //           ],
+            //         ),
+            //       );
+            //     },
+            //   ),
+            // ),
             Gap.h24,
 
             // ── Submit Button ─────────────────────────

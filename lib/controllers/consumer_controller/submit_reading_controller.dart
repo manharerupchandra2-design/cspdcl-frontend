@@ -12,6 +12,8 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 
+import '../../views/camera_overlay_page.dart';
+
 class SubmitReadingController extends GetxController {
   RxInt readingId = 0.obs;
 
@@ -54,7 +56,7 @@ class SubmitReadingController extends GetxController {
         meterId: meterId,
         readerId: box.read('id') ?? 0,
         currentReading: reading,
-        meterPhoto: "",
+        meterPhoto: meterImage.value,
       );
 
       final response = await ApiServices.setReading(consumerId, request);
@@ -103,46 +105,20 @@ class SubmitReadingController extends GetxController {
 
   Future<void> scanMeter() async {
     try {
-      final picker = ImagePicker();
+      // ✅ Custom camera screen kholo
+      final imagePath = await Get.to(() => const CameraOverlayPage());
 
-      final XFile? image = await picker.pickImage(
-        source: ImageSource.camera,
-        imageQuality: 80,
-      );
+      if (imagePath == null) return; // user ne back press kiya
 
-      if (image == null) return;
+      meterImage.value = File(imagePath);
 
-      // ✅ Crop screen open karo
-      final croppedFile = await ImageCropper().cropImage(
-        sourcePath: image.path,
-        uiSettings: [
-          AndroidUiSettings(
-            toolbarTitle: 'Meter Crop karo',
-            toolbarColor: AppColors.primary,
-            toolbarWidgetColor: Colors.white,
-            lockAspectRatio: false,
-          ),
-          IOSUiSettings(title: 'Meter Crop karo'),
-        ],
-      );
-
-      // User ne crop cancel kiya
-      if (croppedFile == null) return;
-
-      meterImage.value = File(croppedFile.path); // ✅ cropped image
-
-      final inputImage = InputImage.fromFilePath(
-        croppedFile.path,
-      ); // ✅ cropped path
-
+      final inputImage = InputImage.fromFilePath(imagePath);
       final textRecognizer = TextRecognizer();
-
       final RecognizedText recognizedText = await textRecognizer.processImage(
         inputImage,
       );
 
       String extractedText = recognizedText.text;
-
       print("OCR Result : $extractedText");
 
       final matches = RegExp(r'\d+').allMatches(extractedText);
@@ -153,7 +129,6 @@ class SubmitReadingController extends GetxController {
             .reduce((a, b) => a.length > b.length ? a : b);
 
         readController.text = reading;
-
         Get.snackbar("Success", "Reading detected: $reading");
       } else {
         Get.snackbar("Error", "No reading detected");

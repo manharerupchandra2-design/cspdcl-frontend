@@ -186,7 +186,6 @@ class HistoryPage extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-
           // ── Search Bar ────────────────────────────────
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
@@ -200,7 +199,6 @@ class HistoryPage extends StatelessWidget {
           // ── List ─────────────────────────────────────
           Expanded(
             child: Obx(() {
-
               if (controller.isLoading.value) {
                 return const LoadingState(message: "Loading....");
               }
@@ -240,22 +238,21 @@ class _HistoryCard extends StatelessWidget {
       onTap: () {},
       child: Row(
         children: [
-
           // ── Meter Photo ────────────────────────────
           ClipRRect(
             borderRadius: AppDimens.br10,
-            child: item.meterPhoto.isNotEmpty
+            child: item.meterPhoto != null && item.meterPhoto!.isNotEmpty
                 ? Image.network(
-              "${ApiServices.baseUrl}/upload/${item.meterPhoto}",
-              width: 64,
-              height: 64,
-              fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => _photoPlaceholder(),
-              loadingBuilder: (_, child, progress) {
-                if (progress == null) return child;
-                return _photoPlaceholder(loading: true);
-              },
-            )
+                    item.meterPhoto!,
+                    width: 64,
+                    height: 64,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) => _photoPlaceholder(),
+                    loadingBuilder: (_, child, progress) {
+                      if (progress == null) return child;
+                      return _photoPlaceholder(loading: true);
+                    },
+                  )
                 : _photoPlaceholder(),
           ),
 
@@ -286,17 +283,19 @@ class _HistoryCard extends StatelessWidget {
                 Gap.h6,
 
                 // Details
-                _infoText(Icons.badge_outlined,
-                    "Consumer: ${item.consumerNo}"),
+                _infoText(Icons.badge_outlined, "Consumer: ${item.consumerNo}"),
                 Gap.h3,
-                _infoText(Icons.electric_meter_outlined,
-                    "Meter: ${item.meterNo}"),
+                _infoText(
+                  Icons.electric_meter_outlined,
+                  "Meter: ${item.meterNo}",
+                ),
                 Gap.h3,
-                _infoText(Icons.speed_outlined,
-                    "Reading: ${item.currentReading} kWh"),
+                _infoText(
+                  Icons.speed_outlined,
+                  "Reading: ${item.currentReading} kWh",
+                ),
                 Gap.h3,
-                _infoText(Icons.calendar_today_outlined,
-                    item.createdAt),
+                _infoText(Icons.calendar_today_outlined, item.createdAt),
               ],
             ),
           ),
@@ -331,17 +330,17 @@ class _HistoryCard extends StatelessWidget {
       ),
       child: loading
           ? const Center(
-        child: SizedBox(
-          width: 20,
-          height: 20,
-          child: CircularProgressIndicator(strokeWidth: 2),
-        ),
-      )
+              child: SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              ),
+            )
           : const Icon(
-        Icons.electric_meter_outlined,
-        color: AppColors.textHint,
-        size: 28,
-      ),
+              Icons.electric_meter_outlined,
+              color: AppColors.textHint,
+              size: 28,
+            ),
     );
   }
 }
