@@ -264,25 +264,27 @@ class ConsumerDetailPage extends StatelessWidget {
             Obx(() {
               final bill = ctrl.previousBill.value;
 
-              return InfoCard(
-                title: "Previous Bill",
-                titleIcon: Icons.receipt_outlined,
-                isLoading: bill == null,
-                rows: bill == null
-                    ? []
-                    : [
-                        InfoRow(
-                          "Previous Reading",
-                          "${bill.currentReading} kWh",
-                        ),
-                        InfoRow("Units Consumed", "${bill.units} units"),
-                        InfoRow(
-                          "Bill Amount",
-                          "₹ ${bill.amount}",
-                          valueColor: AppColors.success,
-                        ),
-                      ],
-              );
+              return bill != null
+                  ? InfoCard(
+                      title: "Previous Bill",
+                      titleIcon: Icons.receipt_outlined,
+                      isLoading: bill == null,
+                      rows: bill == null
+                          ? []
+                          : [
+                              InfoRow(
+                                "Previous Reading",
+                                "${bill.currentReading} kWh",
+                              ),
+                              InfoRow("Units Consumed", "${bill.units} units"),
+                              InfoRow(
+                                "Bill Amount",
+                                "₹ ${bill.amount}",
+                                valueColor: AppColors.success,
+                              ),
+                            ],
+                    )
+                  : Text("newly added");
             }),
             Gap.h24,
             //Scan Button
@@ -291,8 +293,8 @@ class ConsumerDetailPage extends StatelessWidget {
               return AppButton(
                 label: "Take Meter Reading",
                 icon: Icons.camera_alt,
-                isLoading: bill == null,
-                onPressed: bill == null
+                isLoading: ctrl.isLoading.value,
+                onPressed: ctrl.isLoading.value
                     ? null
                     : () => Get.to(
                         () => MeterReadingPage(
@@ -322,7 +324,6 @@ class ConsumerDetailPage extends StatelessWidget {
             //         )
             //       : const SizedBox();
             // }),
-
 
             //Generate Bill
             // AppButton(

@@ -16,6 +16,8 @@ import '../models/consumer_detail_model/set_reading_model.dart';
 import '../models/consumer_model/consumer_response.dart';
 import '../models/dashboard_controller/dashboard_controller.dart';
 
+import 'package:mime/mime.dart';
+
 class ApiServices {
   static const String baseUrl = "https://cspdcl-backend.onrender.com/api";
   static final box = GetStorage();
@@ -270,14 +272,24 @@ class ApiServices {
 
       // Photo
       if (request.meterPhoto != null) {
+        final mimeType =
+            lookupMimeType(request.meterPhoto!.path) ?? 'image/jpeg';
+        final mimeTypeSplit = mimeType.split('/');
+        // multipartRequest.files.add(
+        //   await http.MultipartFile.fromPath(
+        //     'meter_photo',
+        //     contentType: MediaType(
+        //       'image',
+        //       'jpeg',
+        //     ), // backend: upload.single('meter_photo')
+        //     request.meterPhoto!.path,
+        //   ),
+        // );
         multipartRequest.files.add(
           await http.MultipartFile.fromPath(
             'meter_photo',
-            contentType: MediaType(
-              'image',
-              'jpeg',
-            ), // backend: upload.single('meter_photo')
             request.meterPhoto!.path,
+            contentType: MediaType(mimeTypeSplit[0], mimeTypeSplit[1]),
           ),
         );
       }
@@ -286,7 +298,8 @@ class ApiServices {
         const Duration(seconds: 15),
       );
       final body = await streamed.stream.bytesToString();
-      print(body);
+      print("status code : ${streamed.statusCode}");
+      print("Body : $body");
 
       final result = jsonDecode(body);
 
@@ -335,22 +348,22 @@ class ApiServices {
     throw Exception("Failed");
   }
 
-  static Future<CommonResModel> editReading(
-    int currentReading,
-    int readingId,
-  ) async {
-    print(readingId);
-    final response = await http.put(
-      Uri.parse("$baseUrl/readings/editReading/$readingId"),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({"current_reading": currentReading}),
-    );
-
-    final result = jsonDecode(response.body);
-
-    if (response.statusCode == 200) {
-      return CommonResModel.fromJson(result);
-    }
-    throw Exception("Failed");
-  }
+  // static Future<CommonResModel> editReading(
+  //   int currentReading,
+  //   int readingId,
+  // ) async {
+  //   print(readingId);
+  //   final response = await http.put(
+  //     Uri.parse("$baseUrl/readings/editReading/$readingId"),
+  //     headers: {"Content-Type": "application/json"},
+  //     body: jsonEncode({"current_reading": currentReading}),
+  //   );
+  //
+  //   final result = jsonDecode(response.body);
+  //
+  //   if (response.statusCode == 200) {
+  //     return CommonResModel.fromJson(result);
+  //   }
+  //   throw Exception("Failed");
+  // }
 }

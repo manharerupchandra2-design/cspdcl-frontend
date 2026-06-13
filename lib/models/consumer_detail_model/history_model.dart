@@ -2,17 +2,12 @@ class HistoryResponse {
   final bool success;
   final List<HistoryItem> data;
 
-  HistoryResponse({
-    required this.success,
-    required this.data,
-  });
+  HistoryResponse({required this.success, required this.data});
 
   factory HistoryResponse.fromJson(Map<String, dynamic> json) {
     return HistoryResponse(
       success: json["success"],
-      data: (json["data"] as List)
-          .map((e) => HistoryItem.fromJson(e))
-          .toList(),
+      data: (json["data"] as List).map((e) => HistoryItem.fromJson(e)).toList(),
     );
   }
 }
@@ -44,7 +39,7 @@ class HistoryItem {
       meterNo: json["meter_no"] ?? "",
       currentReading: json["current_reading"] ?? 0,
       meterPhoto: json["meter_photo"],
-      createdAt: json["created_at"] ?? "",
+      createdAt: json["reading_date"] ?? "",
     );
   }
 }

@@ -236,13 +236,9 @@ import 'bill_page.dart';
 
 class MeterReadingPage extends StatelessWidget {
   final Consumer consumer;
-  final PreviousBill previousBill;
+  final PreviousBill? previousBill;
 
-  MeterReadingPage({
-    super.key,
-    required this.consumer,
-    required this.previousBill,
-  });
+  MeterReadingPage({super.key, required this.consumer, this.previousBill});
 
   late final SubmitReadingController ctrl = Get.put(
     SubmitReadingController(consumerId: consumer.id, meterId: consumer.meterId),
@@ -267,7 +263,7 @@ class MeterReadingPage extends StatelessWidget {
                 InfoRow("Meter No", consumer.meterNo),
                 InfoRow(
                   "Prev Reading",
-                  "${previousBill.currentReading} kWh",
+                  "${previousBill?.currentReading ?? 0} kWh",
                   valueColor: AppColors.info,
                 ),
               ],
@@ -495,6 +491,7 @@ class MeterReadingPage extends StatelessWidget {
                     : Icons.receipt_long,
                 isOutlined: !canGenerate,
                 color: ctrl.billGenerated.value ? AppColors.success : null,
+                isLoading: ctrl.isBillLoading.value,
                 onPressed: canGenerate
                     ? () async {
                         await ctrl.generateBill();

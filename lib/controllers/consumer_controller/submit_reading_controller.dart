@@ -16,15 +16,12 @@ import '../../views/camera_overlay_page.dart';
 
 class SubmitReadingController extends GetxController {
   RxInt readingId = 0.obs;
-
   RxString message = ''.obs;
-
   Rx<File?> meterImage = Rx<File?>(null);
-
   RxBool isSuccess = false.obs;
-
   RxBool isLoading = false.obs;
 
+  RxBool isBillLoading = false.obs;
   RxBool billGenerated = false.obs;
 
   Rxn<BillData> generatedBill = Rxn<BillData>();
@@ -78,31 +75,6 @@ class SubmitReadingController extends GetxController {
     }
   }
 
-  Future<void> generateBill() async {
-    try {
-      if (readingId.value == 0) {
-        Get.snackbar("Error", "Submit reading first");
-        return;
-      }
-
-      isLoading.value = true;
-
-      final response = await ApiServices.generateBill(readingId.value);
-
-      if (response != null) {
-        generatedBill.value = response.data;
-
-        billGenerated.value = true;
-
-        Get.snackbar("Success", response.message);
-      }
-    } catch (e) {
-      Get.snackbar("Error", e.toString());
-    } finally {
-      isLoading.value = false;
-    }
-  }
-
   Future<void> scanMeter() async {
     try {
       // ✅ Custom camera screen kholo
@@ -129,7 +101,7 @@ class SubmitReadingController extends GetxController {
             .reduce((a, b) => a.length > b.length ? a : b);
 
         readController.text = reading;
-        Get.snackbar("Success", "Reading detected: $reading");
+        // Get.snackbar("Success", "Reading detected: $reading");
       } else {
         Get.snackbar("Error", "No reading detected");
       }
@@ -137,6 +109,31 @@ class SubmitReadingController extends GetxController {
       await textRecognizer.close();
     } catch (e) {
       Get.snackbar("Error", e.toString());
+    }
+  }
+
+  Future<void> generateBill() async {
+    try {
+      if (readingId.value == 0) {
+        Get.snackbar("Error", "Submit reading first");
+        return;
+      }
+
+      isBillLoading.value = true;
+
+      final response = await ApiServices.generateBill(readingId.value);
+
+      if (response != null) {
+        generatedBill.value = response.data;
+
+        billGenerated.value = true;
+
+        Get.snackbar("Success", response.message);
+      }
+    } catch (e) {
+      Get.snackbar("Error", e.toString());
+    } finally {
+      isBillLoading.value = false;
     }
   }
 }

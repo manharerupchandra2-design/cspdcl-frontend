@@ -172,7 +172,6 @@
 // }
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sample1/services/api_services.dart';
 import '../../controllers/consumer_controller/history_controller.dart';
 import '../../core/theme/theme.dart'; // ✅ ek import
 
@@ -183,6 +182,9 @@ class HistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.getHistory();
+    });
     return Scaffold(
       body: Column(
         children: [
