@@ -4,6 +4,8 @@ import 'package:sample1/views/bottom_nav_bar/consumers_page/consumers_page.dart'
 import 'package:sample1/views/bottom_nav_bar/profile_page.dart';
 import '../../views/bottom_nav_bar/dashboard_page.dart';
 import '../../views/bottom_nav_bar/history_page.dart';
+import '../consumer_controller/bill_history_controller.dart';
+import '../consumer_controller/reading_history_controller.dart';
 
 class BottomNavController extends GetxController {
   final List<Widget> pages = [
@@ -17,6 +19,21 @@ class BottomNavController extends GetxController {
   RxString title = "".obs;
   void changeIndex(int index) {
     selectedIndex.value = index;
+
+    if (index == 2) {
+      if (Get.isRegistered<HistoryController>()) {
+        final historyCtrl = Get.find<HistoryController>();
+        historyCtrl.selectedDate.value = DateTime.now();
+        historyCtrl.getHistory();
+      }
+
+      if (Get.isRegistered<BillHistoryController>()) {
+        final billCtrl = Get.find<BillHistoryController>();
+        billCtrl.selectedDate.value = DateTime.now();
+        billCtrl.getBillHistory();
+      }
+    }
+
     if (index == 0) {
       title.value = "Dashboard";
     } else if (index == 1) {

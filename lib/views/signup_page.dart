@@ -150,6 +150,35 @@ class SignupPage extends StatelessWidget {
                 );
               }),
 
+              Gap.h16,
+
+              Obx(() => Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                decoration: BoxDecoration(
+                  border: Border.all(color: AppColors.border),
+                  borderRadius: AppDimens.br10,
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    hint: Row(
+                      children: [
+                        Icon(Icons.location_on_outlined, color: AppColors.textHint, size: 20),
+                        Gap.w8,
+                        Text("Select Zone", style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textHint)),
+                      ],
+                    ),
+                    value: authController.selectedZone.value.isEmpty
+                        ? null
+                        : authController.selectedZone.value,
+                    items: authController.zones.map((zone) =>
+                        DropdownMenuItem(value: zone, child: Text(zone))
+                    ).toList(),
+                    onChanged: (val) => authController.selectedZone.value = val ?? '',
+                  ),
+                ),
+              )),
+
               Gap.h32,
 
               //Signup Button

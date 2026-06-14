@@ -7,6 +7,11 @@ import 'package:sample1/models/signup_model.dart';
 import 'package:sample1/services/api_services.dart';
 
 import '../models/meter_reader_model/meter_reader_model.dart';
+import 'bottom_nav_controller/bottom_nav_controller.dart';
+import 'consumer_controller/bill_history_controller.dart';
+import 'consumer_controller/consumer_list_controller.dart';
+import 'consumer_controller/reading_history_controller.dart';
+import 'dashboard_controller/dashboard_controller.dart';
 
 class AuthController extends GetxController {
   TextEditingController emailController = TextEditingController();
@@ -19,6 +24,10 @@ class AuthController extends GetxController {
   RxString message = "".obs;
   RxBool isSignupSuccess = false.obs;
   Rx<MeterReaderModel?> meter_reader = Rx<MeterReaderModel?>(null);
+
+  RxString selectedZone = ''.obs;
+
+  final List<String> zones = ['Zone A', 'Zone B', 'Zone C', 'Zone D'];
 
   final box = GetStorage();
 
@@ -54,6 +63,13 @@ class AuthController extends GetxController {
         box.write("email", response?.meterReader?.email);
         box.write('id', response?.meterReader?.id);
         box.write('mobile', response?.meterReader?.mobile);
+        box.write('zone', response?.meterReader?.zone);
+
+        Get.put(BottomNavController());
+        Get.put(DashboardController());
+        Get.put(ConsumerListController());
+        Get.put(HistoryController());
+        Get.put(BillHistoryController());
       }
       print("token:${response?.token.toString()}");
       print(response?.message.toString());
@@ -76,11 +92,14 @@ class AuthController extends GetxController {
         emailController.text.isEmpty ||
         mobileController.text.isEmpty ||
         passwordController.text.isEmpty) {
-      isSignupSuccess.value=false;
-      message.value="All fields are required";
+      isSignupSuccess.value = false;
+      message.value = "All fields are required";
       return;
     }
-
+    if (selectedZone.value.isEmpty) {
+      message.value = "Please select a zone";
+      return;
+    }
     try {
       isLoading.value = true;
       final requester = SignupRequest(
@@ -88,6 +107,7 @@ class AuthController extends GetxController {
         password: passwordController.text.trim(),
         name: nameController.text.trim(),
         mobile: mobileController.text.trim(),
+        zone: selectedZone.value,
       );
       SignupResponse? response = await ApiServices.signup(requester);
       isSignupSuccess.value = response?.success ?? false;

@@ -39,7 +39,7 @@ class HistoryItem {
       meterNo: json["meter_no"] ?? "",
       currentReading: json["current_reading"] ?? 0,
       meterPhoto: json["meter_photo"],
-      createdAt: json["reading_date"] ?? "",
+      createdAt: json["created_at"] ?? "",
     );
   }
 }

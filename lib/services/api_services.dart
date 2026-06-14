@@ -5,13 +5,13 @@ import 'dart:io';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import 'package:sample1/models/common_res_model.dart';
 import 'package:sample1/models/login_model.dart';
 import 'package:sample1/models/signup_model.dart';
 
+import '../models/consumer_detail_model/bil_history_model.dart';
 import '../models/consumer_detail_model/bill_model.dart';
 import '../models/consumer_detail_model/consumer_detail_response.dart';
-import '../models/consumer_detail_model/history_model.dart';
+import '../models/consumer_detail_model/reading_history_model.dart';
 import '../models/consumer_detail_model/set_reading_model.dart';
 import '../models/consumer_model/consumer_response.dart';
 import '../models/dashboard_controller/dashboard_controller.dart';
@@ -162,7 +162,7 @@ class ApiServices {
     try {
       final response = await http.get(
         Uri.parse("$baseUrl/dashboard"),
-        headers: {"Authorization": "bearer $token"},
+        headers: {"Authorization": "Bearer $token"},
       );
 
       final result = jsonDecode(response.body);
@@ -205,7 +205,7 @@ class ApiServices {
       final response = await http
           .get(
             Uri.parse("$baseUrl/consumers/$consumerId"),
-            headers: {"Authorization": "bearer $token"},
+            headers: {"Authorization": "Bearer $token"},
           )
           .timeout(Duration(seconds: 10));
       print("DATA IS :  ${response.body}");
@@ -337,7 +337,8 @@ class ApiServices {
   }
 
   static Future<List<HistoryItem>> getHistory() async {
-    final response = await http.get(Uri.parse("$baseUrl/readings/history"));
+    final response = await http.get(Uri.parse("$baseUrl/readings/history"),
+        headers: {"Authorization": "Bearer $token"});
 
     final result = jsonDecode(response.body);
 
@@ -366,4 +367,18 @@ class ApiServices {
   //   }
   //   throw Exception("Failed");
   // }
+
+  static Future<List<BillHistoryItem>> getBillHistory() async {
+    final response = await http.get(Uri.parse("$baseUrl/bills/history"),
+        headers: {"Authorization": "Bearer $token"});
+
+    print('BILL STATUS: ${response.statusCode}');
+    print('BILL BODY: ${response.body}');
+    print('TOKEN: $token');
+    final result = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      return BillHistoryResponse.fromJson(result).data;
+    }
+    throw Exception("Failed");
+  }
 }

@@ -99,7 +99,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../../controllers/bottom_nav_controller/bottom_nav_controller.dart';
-import '../../core/theme/theme.dart'; // ✅ ek import
+import '../../controllers/consumer_controller/bill_history_controller.dart';
+import '../../controllers/consumer_controller/consumer_list_controller.dart';
+import '../../controllers/consumer_controller/reading_history_controller.dart';
+import '../../controllers/dashboard_controller/dashboard_controller.dart';
+import '../../core/theme/theme.dart';
 import '../login_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -108,11 +112,10 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ctrl = Get.find<BottomNavController>();
-    final box  = GetStorage();
+    final box = GetStorage();
 
     return Obx(
-          () => Scaffold(
-
+      () => Scaffold(
         // ── AppBar ─────────────────────────────────────
         appBar: AppBar(
           title: Text(ctrl.title.value),
@@ -128,7 +131,6 @@ class HomePage extends StatelessWidget {
         drawer: Drawer(
           child: Column(
             children: [
-
               // Header
               Container(
                 width: double.infinity,
@@ -162,12 +164,15 @@ class HomePage extends StatelessWidget {
                     Gap.h4,
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 3),
+                        horizontal: 10,
+                        vertical: 3,
+                      ),
                       decoration: BoxDecoration(
                         color: AppColors.accent.withOpacity(0.2),
                         borderRadius: AppDimens.brFull,
                         border: Border.all(
-                            color: AppColors.accent.withOpacity(0.5)),
+                          color: AppColors.accent.withOpacity(0.5),
+                        ),
                       ),
                       child: Text(
                         "Meter Reader",
@@ -235,6 +240,15 @@ class HomePage extends StatelessWidget {
                 color: AppColors.error,
                 onTap: () {
                   box.erase();
+
+                  Get.delete<DashboardController>(force: true);
+                  Get.delete<HistoryController>(force: true);
+                  Get.delete<BillHistoryController>(force: true);
+                  Get.delete<ConsumerListController>(force: true);
+                  Get.delete<BottomNavController>(force: true);
+
+
+
                   Get.offAll(() => LoginPage());
                 },
               ),
@@ -290,15 +304,16 @@ class HomePage extends StatelessWidget {
     final c = color ?? AppColors.textPrimary;
     return ListTile(
       leading: Icon(icon, color: c, size: AppDimens.iconMd),
-      title: Text(title,
-          style: AppTextStyles.bodyMedium.copyWith(
-            color: c,
-            fontWeight: FontWeight.w500,
-          )),
+      title: Text(
+        title,
+        style: AppTextStyles.bodyMedium.copyWith(
+          color: c,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
       onTap: onTap,
       shape: RoundedRectangleBorder(borderRadius: AppDimens.br10),
-      contentPadding:
-      const EdgeInsets.symmetric(horizontal: 20, vertical: 2),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 2),
       horizontalTitleGap: 8,
     );
   }
