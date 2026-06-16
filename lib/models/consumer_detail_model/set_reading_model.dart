@@ -12,15 +12,7 @@ class SetReadingRequest {
     required this.currentReading,
     this.meterPhoto,
   });
-  //
-  // Map<String, dynamic> toJson() {
-  //   return {
-  //     "meter_id": meterId,
-  //     "reader_id": readerId,
-  //     "current_reading": currentReading,
-  //     "meter_photo": meterPhoto,
-  //   };
-  // }
+
 }
 
 class SetReadingResponse {

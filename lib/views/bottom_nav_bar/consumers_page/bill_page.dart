@@ -1,114 +1,51 @@
-// import 'package:flutter/material.dart';
-// import 'package:get/get_core/src/get_main.dart';
-// import 'package:get/get_instance/src/extension_instance.dart';
-// import 'package:get/get_navigation/src/extension_navigation.dart';
-// import 'package:sample1/controllers/bottom_nav_controller/bottom_nav_controller.dart';
-// import 'package:sample1/views/bottom_nav_bar/home_page.dart';
-//
-// import '../../../controllers/dashboard_controller/dashboard_controller.dart';
-// import '../../../models/consumer_detail_model/bill_model.dart';
-// import '../dashboard_page.dart';
-//
-// class GeneratedBillPage extends StatelessWidget {
-//   final BillData bill;
-//
-//   const GeneratedBillPage({super.key, required this.bill});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: const Text("Bill Receipt")),
-//
-//       body: Padding(
-//         padding: const EdgeInsets.all(16),
-//
-//         child: Card(
-//           elevation: 5,
-//
-//           child: Padding(
-//             padding: const EdgeInsets.all(20),
-//
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//
-//               children: [
-//                 const Center(
-//                   child: Text(
-//                     "CSPDCL ELECTRICITY BILL",
-//                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-//                   ),
-//                 ),
-//
-//                 const Divider(height: 30),
-//
-//                 Text("Consumer : ${bill.consumerName}"),
-//
-//                 Text("Consumer No : ${bill.consumerNo}"),
-//
-//                 Text("Meter No : ${bill.meterNo}"),
-//
-//                 const SizedBox(height: 20),
-//
-//                 Text("Previous Reading : ${bill.previousReading}"),
-//
-//                 Text("Current Reading : ${bill.currentReading}"),
-//
-//                 Text("Units Consumed : ${bill.units}"),
-//
-//                 const Divider(height: 30),
-//
-//                 Center(
-//                   child: Text(
-//                     "₹ ${bill.amount}",
-//                     style: const TextStyle(
-//                       fontSize: 32,
-//                       fontWeight: FontWeight.bold,
-//                     ),
-//                   ),
-//                 ),
-//
-//                 const SizedBox(height: 10),
-//
-//                 const Center(child: Text("Bill Generated Successfully")),
-//                 const SizedBox(height: 30),
-//
-//                 SizedBox(
-//                   width: double.infinity,
-//                   height: 50,
-//                   child: ElevatedButton(
-//                     onPressed: () async {
-//                       // Dashboard counts refresh
-//                       final dashboardController =
-//                           Get.find<DashboardController>();
-//
-//                       await dashboardController.getDashboard();
-//                       final btmnavController = Get.find<BottomNavController>();
-//                       btmnavController.selectedIndex(0);
-//                       // Saare previous pages remove karke dashboard kholo
-//                       Get.offAll(() => HomePage());
-//                     },
-//                     child: const Text("Go To Dashboard"),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../controllers/bottom_nav_controller/bottom_nav_controller.dart';
 import '../../../controllers/dashboard_controller/dashboard_controller.dart';
-import '../../../core/theme/theme.dart'; // ✅ ek import
+import '../../../core/theme/theme.dart';
 import '../../../models/consumer_detail_model/bill_model.dart';
 import '../home_page.dart';
 
-class GeneratedBillPage extends StatelessWidget {
+class GeneratedBillPage extends StatefulWidget {
   final BillData bill;
   const GeneratedBillPage({super.key, required this.bill});
+
+  @override
+  State<GeneratedBillPage> createState() => _GeneratedBillPageState();
+}
+
+class _GeneratedBillPageState extends State<GeneratedBillPage> {
+  Future<void> _sendSMS() async {
+    final mobile = widget.bill.consumerMobile.replaceAll(RegExp(r'[^0-9]'), '');
+
+    final body =
+        "CSPDCL Electricity Bill\n"
+        "Consumer: ${widget.bill.consumerName}\n"
+        "Consumer No: ${widget.bill.consumerNo}\n"
+        "Units: ${widget.bill.units} kWh\n"
+        "Amount: Rs ${widget.bill.amount}\n"
+        "Due Date: ${widget.bill.dueDate}"
+        "Please pay before due date.";
+
+    // smsto: try karo
+    final Uri smsUri = Uri.parse(
+      "smsto:$mobile?body=${Uri.encodeComponent(body)}",
+    );
+
+    if (await canLaunchUrl(smsUri)) {
+      await launchUrl(smsUri, mode: LaunchMode.externalApplication);
+    } else {
+      // Fallback — intent
+      final Uri fallback = Uri.parse("sms:$mobile");
+      try {
+        await launchUrl(fallback, mode: LaunchMode.externalApplication);
+      } catch (e) {
+        Get.snackbar("Error", "SMS not found — send manually: $mobile");
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,8 +56,7 @@ class GeneratedBillPage extends StatelessWidget {
         padding: AppDimens.pagePadding,
         child: Column(
           children: [
-
-            // ── Success Banner ────────────────────────
+            //Success Banner
             GradientCard(
               colors: [AppColors.success, Color(0xFF2ECC71)],
               child: Row(
@@ -131,18 +67,22 @@ class GeneratedBillPage extends StatelessWidget {
                       color: Colors.white.withOpacity(0.2),
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(Icons.check_circle,
-                        color: Colors.white, size: 32),
+                    child: const Icon(
+                      Icons.check_circle,
+                      color: Colors.white,
+                      size: 32,
+                    ),
                   ),
                   Gap.w14,
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Bill Generated!",
-                          style: AppTextStyles.onPrimaryH2),
+                      Text("Bill Generated!", style: AppTextStyles.onPrimaryH2),
                       Gap.h4,
-                      Text("Successfully submitted",
-                          style: AppTextStyles.onPrimaryBody),
+                      Text(
+                        "Successfully submitted",
+                        style: AppTextStyles.onPrimaryBody,
+                      ),
                     ],
                   ),
                 ],
@@ -151,16 +91,18 @@ class GeneratedBillPage extends StatelessWidget {
 
             Gap.h16,
 
-            // ── Bill Header ───────────────────────────
+            //Bill Header
             AppCard(
               child: Column(
                 children: [
-                  // CSPDCL Title
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.electric_bolt,
-                          color: AppColors.accent, size: 20),
+                      const Icon(
+                        Icons.electric_bolt,
+                        color: AppColors.accent,
+                        size: 20,
+                      ),
                       Gap.w8,
                       Text(
                         "CSPDCL ELECTRICITY BILL",
@@ -184,11 +126,10 @@ class GeneratedBillPage extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        Text("Total Amount",
-                            style: AppTextStyles.labelLarge),
+                        Text("Total Amount", style: AppTextStyles.labelLarge),
                         Gap.h6,
                         Text(
-                          "₹ ${bill.amount}",
+                          "₹ ${widget.bill.totalAmount}",
                           style: AppTextStyles.amountLarge.copyWith(
                             color: AppColors.primary,
                           ),
@@ -202,40 +143,55 @@ class GeneratedBillPage extends StatelessWidget {
 
             Gap.h12,
 
-            // ── Consumer Info ─────────────────────────
+            //Consumer Info
             InfoCard(
               title: "Consumer Information",
               titleIcon: Icons.person_outline,
               rows: [
-                InfoRow("Consumer",    bill.consumerName),
-                InfoRow("Consumer No", bill.consumerNo),
-                InfoRow("Meter No",    bill.meterNo),
+                InfoRow("Consumer", widget.bill.consumerName),
+                InfoRow("Consumer No", widget.bill.consumerNo),
+                InfoRow("Meter No", widget.bill.meterNo),
               ],
             ),
 
             Gap.h12,
 
-            // ── Reading Info ──────────────────────────
+            //Reading Info
             InfoCard(
               title: "Reading Details",
               titleIcon: Icons.speed_outlined,
               rows: [
-                InfoRow("Previous Reading",
-                    "${bill.previousReading} kWh"),
-                InfoRow("Current Reading",
-                    "${bill.currentReading} kWh"),
-                InfoRow("Units Consumed",
-                    "${bill.units} units",
-                    valueColor: AppColors.info),
-                InfoRow("Bill Amount",
-                    "₹ ${bill.amount}",
-                    valueColor: AppColors.success),
+                InfoRow(
+                  "Previous Reading",
+                  "${widget.bill.previousReading} kWh",
+                ),
+                InfoRow("Current Reading", "${widget.bill.currentReading} kWh"),
+                InfoRow(
+                  "Units Consumed",
+                  "${widget.bill.units} units",
+                  valueColor: AppColors.info,
+                ),
+                InfoRow(
+                  "Calculated Amount",
+                  "${widget.bill.calculatedAmount} ₹",
+                ),
+                InfoRow("Discount", "${widget.bill.discountAmount} ₹"),
+                InfoRow(
+                  "Bill Amount",
+                  "₹ ${widget.bill.amount}",
+                  valueColor: AppColors.success,
+                ),
+                InfoRow("Fixed Charge", "+${widget.bill.fixed} ₹"),
+                InfoRow(
+                  "Due Date",
+                  "${DateFormat("dd MMM yyyy").format(widget.bill.dueDate)}",
+                ),
               ],
             ),
 
             Gap.h24,
 
-            // ── Buttons ───────────────────────────────
+            //Buttons
             AppButton(
               label: "Go to Dashboard",
               icon: Icons.dashboard_outlined,
@@ -252,9 +208,7 @@ class GeneratedBillPage extends StatelessWidget {
               label: "Print / Share Bill",
               icon: Icons.share_outlined,
               isOutlined: true,
-              onPressed: () {
-                // Print/share logic yahan aayega
-              },
+              onPressed: _sendSMS,
             ),
 
             Gap.h20,

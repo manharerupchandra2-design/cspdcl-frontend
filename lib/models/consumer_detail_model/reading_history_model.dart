@@ -1,18 +1,18 @@
-class HistoryResponse {
+class ReadingHistoryResponse {
   final bool success;
-  final List<HistoryItem> data;
+  final List<ReadingHistoryItem> data;
 
-  HistoryResponse({required this.success, required this.data});
+  ReadingHistoryResponse({required this.success, required this.data});
 
-  factory HistoryResponse.fromJson(Map<String, dynamic> json) {
-    return HistoryResponse(
+  factory ReadingHistoryResponse.fromJson(Map<String, dynamic> json) {
+    return ReadingHistoryResponse(
       success: json["success"],
-      data: (json["data"] as List).map((e) => HistoryItem.fromJson(e)).toList(),
+      data: (json["data"] as List).map((e) => ReadingHistoryItem.fromJson(e)).toList(),
     );
   }
 }
 
-class HistoryItem {
+class ReadingHistoryItem {
   final int id;
   final String consumerName;
   final String consumerNo;
@@ -21,7 +21,7 @@ class HistoryItem {
   final String? meterPhoto;
   final String createdAt;
 
-  HistoryItem({
+  ReadingHistoryItem({
     required this.id,
     required this.consumerName,
     required this.consumerNo,
@@ -31,8 +31,8 @@ class HistoryItem {
     required this.createdAt,
   });
 
-  factory HistoryItem.fromJson(Map<String, dynamic> json) {
-    return HistoryItem(
+  factory ReadingHistoryItem.fromJson(Map<String, dynamic> json) {
+    return ReadingHistoryItem(
       id: json["id"],
       consumerName: json["consumer_name"] ?? "",
       consumerNo: json["consumer_no"] ?? "",

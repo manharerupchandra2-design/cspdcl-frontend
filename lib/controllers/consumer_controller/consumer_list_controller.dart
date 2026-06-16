@@ -43,8 +43,8 @@ class ConsumerListController extends GetxController {
     filteredConsumers.assignAll(
       consumers.where(
         (consumer) =>
-            consumer.name.toLowerCase().contains(value.toLowerCase()) ||
-            consumer.meterNo.toLowerCase().contains(value.toLowerCase()),
+            consumer.name!.toLowerCase().contains(value.toLowerCase()) ||
+            consumer.meterNo!.toLowerCase().contains(value.toLowerCase()),
       ),
     );
   }

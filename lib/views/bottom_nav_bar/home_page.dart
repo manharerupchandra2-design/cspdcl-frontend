@@ -242,7 +242,7 @@ class HomePage extends StatelessWidget {
                   box.erase();
 
                   Get.delete<DashboardController>(force: true);
-                  Get.delete<HistoryController>(force: true);
+                  Get.delete<ReadingHistoryController>(force: true);
                   Get.delete<BillHistoryController>(force: true);
                   Get.delete<ConsumerListController>(force: true);
                   Get.delete<BottomNavController>(force: true);

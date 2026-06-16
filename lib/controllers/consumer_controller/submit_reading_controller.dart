@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:image_cropper/image_cropper.dart';
 
-import '../../core/theme/app_colors.dart';
 import '../../models/consumer_detail_model/bill_model.dart';
 import '../../models/consumer_detail_model/set_reading_model.dart';
 import '../../services/api_services.dart';
 
 import 'dart:io';
-import 'package:image_picker/image_picker.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 
 import '../../views/camera_overlay_page.dart';
@@ -77,10 +74,10 @@ class SubmitReadingController extends GetxController {
 
   Future<void> scanMeter() async {
     try {
-      // ✅ Custom camera screen kholo
+
       final imagePath = await Get.to(() => const CameraOverlayPage());
 
-      if (imagePath == null) return; // user ne back press kiya
+      if (imagePath == null) return;
 
       meterImage.value = File(imagePath);
 
@@ -101,7 +98,6 @@ class SubmitReadingController extends GetxController {
             .reduce((a, b) => a.length > b.length ? a : b);
 
         readController.text = reading;
-        // Get.snackbar("Success", "Reading detected: $reading");
       } else {
         Get.snackbar("Error", "No reading detected");
       }
@@ -131,6 +127,7 @@ class SubmitReadingController extends GetxController {
         Get.snackbar("Success", response.message);
       }
     } catch (e) {
+      print(e.toString());
       Get.snackbar("Error", e.toString());
     } finally {
       isBillLoading.value = false;

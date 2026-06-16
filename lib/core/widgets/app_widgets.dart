@@ -121,10 +121,10 @@ class StatCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: AppDimens.br16,
-          border: Border.all(color: AppColors.divider),
+          border: Border.all(color: color.withOpacity(0.4), width: 1.5), // ← color border
           boxShadow: [
             BoxShadow(
-              color: AppColors.shadow,
+              color: color.withOpacity(0.08), // ← colored shadow bhi
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -142,8 +142,7 @@ class StatCard extends StatelessWidget {
               child: Icon(icon, color: color, size: AppDimens.iconMd),
             ),
             Gap.h12,
-            Text(value,
-                style: AppTextStyles.amountMedium.copyWith(color: color)),
+            Text(value, style: AppTextStyles.amountMedium.copyWith(color: color)),
             Gap.h4,
             Text(title, style: AppTextStyles.caption),
           ],

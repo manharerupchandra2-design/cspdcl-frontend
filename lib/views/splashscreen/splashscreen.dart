@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
         Get.put(BottomNavController());
         Get.put(DashboardController());
         Get.put(ConsumerListController());
-        Get.put(HistoryController());
+        Get.put(ReadingHistoryController());
         Get.put(BillHistoryController());
         Get.offAll(() => HomePage());
 
@@ -49,7 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
             height: double.infinity,
             width: double.infinity,
 
-            child: Image.asset("assets/image.png", fit: BoxFit.cover),
+            child: Image.asset("assets/icons/app_icon.png", fit: BoxFit.cover),
           ),
         ],
       ),

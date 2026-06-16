@@ -2,13 +2,13 @@ class PreviousBill {
   final int previousReading;
   final int currentReading;
   final int units;
-  final String amount;
+  final String totalAmount;
 
   PreviousBill({
     required this.previousReading,
     required this.currentReading,
     required this.units,
-    required this.amount,
+    required this.totalAmount,
   });
 
   factory PreviousBill.fromJson(Map<String, dynamic> json) {
@@ -19,7 +19,7 @@ class PreviousBill {
 
       units: json['units'] ?? 0,
 
-      amount: json['amount']?.toString() ?? "0",
+      totalAmount: json['total_amount']?.toString() ?? "0",
     );
   }
 }

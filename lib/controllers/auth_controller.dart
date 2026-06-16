@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:sample1/models/login_model.dart';
 import 'package:sample1/models/signup_model.dart';
@@ -68,7 +67,7 @@ class AuthController extends GetxController {
         Get.put(BottomNavController());
         Get.put(DashboardController());
         Get.put(ConsumerListController());
-        Get.put(HistoryController());
+        Get.put(ReadingHistoryController());
         Get.put(BillHistoryController());
       }
       print("token:${response?.token.toString()}");

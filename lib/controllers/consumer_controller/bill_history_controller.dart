@@ -1,4 +1,3 @@
-// controllers/bill_history_controller.dart
 import 'package:get/get.dart';
 
 import '../../models/consumer_detail_model/bil_history_model.dart';

@@ -225,7 +225,7 @@ class ConsumerDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ctrl = Get.put(ConsumerDetailController(consumer.id));
+    final ctrl = Get.put(ConsumerDetailController(consumer.id??0));
 
     return Scaffold(
       appBar: AppBar(title: const Text("Consumer Detail")),
@@ -239,10 +239,10 @@ class ConsumerDetailPage extends StatelessWidget {
               title: "Consumer Information",
               titleIcon: Icons.person_outline,
               rows: [
-                InfoRow("Name", consumer.name),
-                InfoRow("Consumer No", consumer.consumerNo),
-                InfoRow("Mobile", consumer.mobile),
-                InfoRow("Address", consumer.address),
+                InfoRow("Name", consumer.name??"No name"),
+                InfoRow("Consumer No", consumer.consumerNo??"No consumer number"),
+                InfoRow("Mobile", consumer.mobile??"No mobile"),
+                InfoRow("Address", consumer.address??"No address"),
               ],
             ),
 
@@ -253,8 +253,8 @@ class ConsumerDetailPage extends StatelessWidget {
               title: "Meter Information",
               titleIcon: Icons.electric_meter_outlined,
               rows: [
-                InfoRow("Meter No", consumer.meterNo),
-                InfoRow("Connection", consumer.meterType),
+                InfoRow("Meter No", consumer.meterNo??"No"),
+                InfoRow("Connection", consumer.meterType??"No"),
               ],
             ),
 
@@ -279,7 +279,7 @@ class ConsumerDetailPage extends StatelessWidget {
                               InfoRow("Units Consumed", "${bill.units} units"),
                               InfoRow(
                                 "Bill Amount",
-                                "₹ ${bill.amount}",
+                                "₹ ${bill.totalAmount}",
                                 valueColor: AppColors.success,
                               ),
                             ],

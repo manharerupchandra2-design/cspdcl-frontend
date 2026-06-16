@@ -21,8 +21,7 @@ class ConsumerDetail {
     required this.meterType,
   });
 
-  factory ConsumerDetail.fromJson(
-      Map<String, dynamic> json) {
+  factory ConsumerDetail.fromJson(Map<String, dynamic> json) {
     return ConsumerDetail(
       id: json['id'],
       consumerNo: json['consumer_no'],

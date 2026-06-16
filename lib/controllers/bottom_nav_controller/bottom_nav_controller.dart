@@ -21,8 +21,8 @@ class BottomNavController extends GetxController {
     selectedIndex.value = index;
 
     if (index == 2) {
-      if (Get.isRegistered<HistoryController>()) {
-        final historyCtrl = Get.find<HistoryController>();
+      if (Get.isRegistered<ReadingHistoryController>()) {
+        final historyCtrl = Get.find<ReadingHistoryController>();
         historyCtrl.selectedDate.value = DateTime.now();
         historyCtrl.getHistory();
       }

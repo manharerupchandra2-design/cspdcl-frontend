@@ -1,4 +1,3 @@
-// models/bill_history_model.dart
 class BillHistoryResponse {
   final bool success;
   final List<BillHistoryItem> data;

@@ -1,121 +1,4 @@
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-// import 'package:sample1/utils/app_spacing.dart';
-// import 'package:sample1/views/bottom_nav_bar/consumers_page/consumer_detail_page.dart';
-//
-// import '../../../controllers/consumer_controller/consumer_list_controller.dart';
-//
-// class ConsumersPage extends StatelessWidget {
-//   const ConsumersPage({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final consumerListController = Get.find<ConsumerListController>();
-//     final TextEditingController searchController = TextEditingController();
-//
-//     return Scaffold(
-//       body: Padding(
-//         padding: const EdgeInsets.all(16),
-//
-//         child: Column(
-//           children: [
-//             TextField(
-//               controller: searchController,
-//               onChanged: consumerListController.searchConsumer,
-//               decoration: InputDecoration(
-//                 hintText: "Search Consumer",
-//                 prefixIcon: const Icon(Icons.search),
-//
-//                 border: OutlineInputBorder(
-//                   borderRadius: BorderRadius.circular(12),
-//                 ),
-//               ),
-//             ),
-//
-//             AppSpacing.h15,
-//
-//             Row(
-//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//               children: [
-//                 Text(
-//                   "Total Consumers",
-//                   style: TextStyle(fontWeight: FontWeight.bold),
-//                 ),
-//
-//                 Obx(() {
-//                   return Text(
-//                     consumerListController.totalConsumers.toString(),
-//                     style: TextStyle(fontWeight: FontWeight.bold),
-//                   );
-//                 }),
-//               ],
-//             ),
-//
-//             AppSpacing.h15,
-//
-//             Expanded(
-//               child: Obx(() {
-//                 return ListView.builder(
-//                   itemCount: consumerListController.filteredConsumers.length,
-//
-//                   itemBuilder: (context, index) {
-//                     final consumer =
-//                         consumerListController.filteredConsumers[index];
-//                     return Card(
-//                       margin: const EdgeInsets.only(bottom: 12),
-//
-//                       elevation: 2,
-//
-//                       shape: RoundedRectangleBorder(
-//                         borderRadius: BorderRadius.circular(12),
-//                       ),
-//
-//                       child: ListTile(
-//                         contentPadding: const EdgeInsets.all(12),
-//
-//                         leading: CircleAvatar(
-//                           child: Text(consumer.name[0].toUpperCase()),
-//                         ),
-//
-//                         title: Text(
-//                           consumer.name,
-//                           style: TextStyle(fontWeight: FontWeight.bold),
-//                         ),
-//
-//                         subtitle: Column(
-//                           crossAxisAlignment: CrossAxisAlignment.start,
-//                           children: [
-//                             AppSpacing.w5,
-//
-//                             Text("Consumer No : ${consumer.consumerNo}"),
-//
-//                             AppSpacing.w3,
-//
-//                             Text("Meter No : ${consumer.meterNo}"),
-//
-//                             AppSpacing.w3,
-//
-//                             Text(consumer.address),
-//                           ],
-//                         ),
-//
-//                         trailing: const Icon(Icons.arrow_forward_ios, size: 18),
-//
-//                         onTap: () {
-//                           Get.to(() => ConsumerDetailPage(consumer: consumer));
-//                         },
-//                       ),
-//                     );
-//                   },
-//                 );
-//               }),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../controllers/consumer_controller/consumer_list_controller.dart';
@@ -190,13 +73,17 @@ class ConsumersPage extends StatelessWidget {
                 );
               }
 
-              return ListView.builder(
-                padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
-                itemCount: ctrl.filteredConsumers.length,
-                itemBuilder: (context, index) {
-                  final consumer = ctrl.filteredConsumers[index];
-                  return _ConsumerCard(consumer: consumer, index: index);
-                },
+              return RefreshIndicator(onRefresh: ()async{
+                await ctrl.getConsumers();
+              },
+                child: ListView.builder(
+                  padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
+                  itemCount: ctrl.filteredConsumers.length,
+                  itemBuilder: (context, index) {
+                    final consumer = ctrl.filteredConsumers[index];
+                    return _ConsumerCard(consumer: consumer, index: index);
+                  },
+                ),
               );
             }),
           ),

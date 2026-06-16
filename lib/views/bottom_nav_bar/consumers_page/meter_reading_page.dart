@@ -227,9 +227,8 @@
 // }
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sample1/controllers/consumer_controller/edit_reading_controller.dart';
 import '../../../controllers/consumer_controller/submit_reading_controller.dart';
-import '../../../core/theme/theme.dart'; // ✅ ek import
+import '../../../core/theme/theme.dart';
 import '../../../models/consumer_detail_model/previous_bill.dart';
 import '../../../models/consumer_model/consumer_model.dart';
 import 'bill_page.dart';
@@ -241,7 +240,7 @@ class MeterReadingPage extends StatelessWidget {
   MeterReadingPage({super.key, required this.consumer, this.previousBill});
 
   late final SubmitReadingController ctrl = Get.put(
-    SubmitReadingController(consumerId: consumer.id, meterId: consumer.meterId),
+    SubmitReadingController(consumerId: consumer.id??0, meterId: consumer.meterId??0),
   );
   @override
   Widget build(BuildContext context) {
@@ -258,9 +257,9 @@ class MeterReadingPage extends StatelessWidget {
               title: "Consumer Details",
               titleIcon: Icons.person_outline,
               rows: [
-                InfoRow("Consumer No", consumer.consumerNo),
-                InfoRow("Name", consumer.name),
-                InfoRow("Meter No", consumer.meterNo),
+                InfoRow("Consumer No", consumer.consumerNo??"No consumer number"),
+                InfoRow("Name", consumer.name??"No name"),
+                InfoRow("Meter No", consumer.meterNo??"No meter"),
                 InfoRow(
                   "Prev Reading",
                   "${previousBill?.currentReading ?? 0} kWh",
@@ -394,63 +393,6 @@ class MeterReadingPage extends StatelessWidget {
               keyboardType: TextInputType.number,
             ),
 
-            Gap.h12,
-
-            //Edit Reading
-            // Obx(
-            //   () => AppButton(
-            //     label: "Edit Reading",
-            //     icon: Icons.edit,
-            //     isLoading: ctrl.isLoading.value,
-            //     onPressed: () async {
-            //       final editCtrl = Get.put(
-            //         EditReadingController(ctrl.readingId.value),
-            //       );
-            //       Get.dialog(
-            //         AlertDialog(
-            //           title: Text("Edit Reading"),
-            //           content: AppTextField(
-            //             controller: editCtrl.editReadingController,
-            //             label: "Current Reading (kWh)",
-            //             hint: "e.g. 1450",
-            //             prefixIcon: Icons.speed,
-            //             keyboardType: TextInputType.number,
-            //           ),
-            //           actions: [
-            //             Row(
-            //               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //               children: [
-            //                 TextButton(
-            //                   onPressed: () async {
-            //                     await editCtrl.editReading();
-            //                     Get.snackbar(
-            //                       editCtrl.isSuccess.value ? "Done ✓" : "Error",
-            //                       editCtrl.message.value,
-            //                       backgroundColor: ctrl.isSuccess.value
-            //                           ? AppColors.successLight
-            //                           : AppColors.errorLight,
-            //                       colorText: ctrl.isSuccess.value
-            //                           ? AppColors.success
-            //                           : AppColors.error,
-            //                     );
-            //
-            //                   },
-            //                   child: Text("save"),
-            //                 ),
-            //                 TextButton(
-            //                   onPressed: () {
-            //                     Get.back();
-            //                   },
-            //                   child: Text("cancel"),
-            //                 ),
-            //               ],
-            //             ),
-            //           ],
-            //         ),
-            //       );
-            //     },
-            //   ),
-            // ),
             Gap.h24,
 
             // ── Submit Button ─────────────────────────

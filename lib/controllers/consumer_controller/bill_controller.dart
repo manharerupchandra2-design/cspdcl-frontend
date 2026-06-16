@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import '../../services/api_services.dart';
 
 class GeneratedBillController extends GetxController {
-
   final int billId;
 
   GeneratedBillController(this.billId);
@@ -18,7 +17,7 @@ class GeneratedBillController extends GetxController {
   RxInt currentReading = 0.obs;
   RxInt units = 0.obs;
 
-  RxDouble amount = 0.0.obs;
+  RxString amount = "".obs;
 
   @override
   void onInit() {
@@ -30,30 +29,21 @@ class GeneratedBillController extends GetxController {
     try {
       isLoading.value = true;
 
-      final response =
-      await ApiServices.generateBill(billId);
+      final response = await ApiServices.generateBill(billId);
 
-      consumerName.value =
-          response?.data.consumerName ?? '';
+      consumerName.value = response?.data.consumerName ?? '';
 
-      consumerNo.value =
-          response?.data.consumerNo ?? '';
+      consumerNo.value = response?.data.consumerNo ?? '';
 
-      meterNo.value =
-          response?.data.meterNo ?? '';
+      meterNo.value = response?.data.meterNo ?? '';
 
-      previousReading.value =
-          response?.data.previousReading ?? 0;
+      previousReading.value = response?.data.previousReading ?? 0;
 
-      currentReading.value =
-          response?.data.currentReading ?? 0;
+      currentReading.value = response?.data.currentReading ?? 0;
 
-      units.value =
-          response?.data.units ?? 0;
+      units.value = response?.data.units ?? 0;
 
-      amount.value =
-          response?.data.amount ?? 0;
-
+      amount.value = response?.data.amount ?? "0";
     } finally {
       isLoading.value = false;
     }
