@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import '../../core/theme/theme.dart';
 import '../../models/consumer_detail_model/bill_model.dart';
 import '../../models/consumer_detail_model/set_reading_model.dart';
 import '../../services/api_services.dart';
@@ -27,14 +28,19 @@ class SubmitReadingController extends GetxController {
 
   final int consumerId;
   final int meterId;
+  final String meterType;
 
-  SubmitReadingController({required this.meterId, required this.consumerId});
+  SubmitReadingController({
+    required this.meterId,
+    required this.consumerId,
+    required this.meterType,
+  });
 
   Future<void> submitReading() async {
     try {
-      print(consumerId);
+      print("Consumer Id : $consumerId");
       print("MeterId : $meterId");
-
+      print("Meter Type : $meterType");
       isLoading.value = true;
 
       final reading = int.tryParse(readController.text);
@@ -48,6 +54,7 @@ class SubmitReadingController extends GetxController {
 
       final request = SetReadingRequest(
         meterId: meterId,
+        meterType: meterType,
         readerId: box.read('id') ?? 0,
         currentReading: reading,
         meterPhoto: meterImage.value,
@@ -74,7 +81,6 @@ class SubmitReadingController extends GetxController {
 
   Future<void> scanMeter() async {
     try {
-
       final imagePath = await Get.to(() => const CameraOverlayPage());
 
       if (imagePath == null) return;
@@ -123,12 +129,21 @@ class SubmitReadingController extends GetxController {
         generatedBill.value = response.data;
 
         billGenerated.value = true;
-
-        Get.snackbar("Success", response.message);
+        Get.snackbar(
+          "Done ✓",
+          message.value,
+          backgroundColor: AppColors.successLight,
+          colorText: AppColors.success,
+        );
       }
     } catch (e) {
       print(e.toString());
-      Get.snackbar("Error", e.toString());
+      Get.snackbar(
+        "Error",
+        message.value,
+        backgroundColor: AppColors.errorLight,
+        colorText: AppColors.error,
+      );
     } finally {
       isBillLoading.value = false;
     }

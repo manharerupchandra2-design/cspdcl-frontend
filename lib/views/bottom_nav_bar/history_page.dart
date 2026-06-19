@@ -18,7 +18,7 @@ class HistoryPage extends StatelessWidget {
       child: Scaffold(
         body: Column(
           children: [
-            // ── Tab Bar ─────────────────────────────
+            //Tab Bar
             Container(
               margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
               decoration: BoxDecoration(
@@ -43,7 +43,7 @@ class HistoryPage extends StatelessWidget {
 
             Gap.h12,
 
-            // ── Tab Views ───────────────────────────
+            //Tab Views
             Expanded(
               child: TabBarView(
                 children: [
@@ -59,7 +59,7 @@ class HistoryPage extends StatelessWidget {
   }
 }
 
-// ── Readings Tab ─────────────────────────────────────────
+//Readings Tab
 class _ReadingsTab extends StatelessWidget {
   final ReadingHistoryController controller;
   const _ReadingsTab({required this.controller});
@@ -145,7 +145,7 @@ class _ReadingsTab extends StatelessWidget {
   }
 }
 
-// ── Bills Tab ────────────────────────────────────────────
+//Bills Tab
 class _BillsTab extends StatelessWidget {
   final BillHistoryController controller;
   const _BillsTab({required this.controller});
@@ -226,7 +226,7 @@ class _BillsTab extends StatelessWidget {
   }
 }
 
-// ── Date Filter Widget ───────────────────────────────────
+//Date Filter Widget
 class _DateFilter extends StatelessWidget {
   final Rxn<DateTime> selectedDate;
   final Function(DateTime) onDateSelected;
@@ -319,7 +319,7 @@ class _DateFilter extends StatelessWidget {
   }
 }
 
-// ── Bill Card ────────────────────────────────────────────
+//Bill Card
 class _BillCard extends StatelessWidget {
   final dynamic item;
   const _BillCard({required this.item});
@@ -363,7 +363,7 @@ class _BillCard extends StatelessWidget {
                     ),
                     Gap.w8,
                     Text(
-                      "₹ ${item.amount.toStringAsFixed(2)}",
+                      "₹ ${item.totalAmount.toStringAsFixed(2)}",
                       style: AppTextStyles.labelLarge.copyWith(
                         color: AppColors.success,
                       ),

@@ -53,10 +53,6 @@ class DashboardPage extends StatelessWidget {
                           style: AppTextStyles.onPrimaryH2,
                         ),
                         Gap.h4,
-                        // Text(
-                        //   box.read("zone") ?? "",
-                        //   style: AppTextStyles.onPrimaryBody,
-                        // ),
                         Container(
                           padding: EdgeInsets.symmetric(
                             horizontal: 8,

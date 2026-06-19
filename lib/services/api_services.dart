@@ -39,7 +39,7 @@ class ApiServices {
           )
           .timeout(Duration(seconds: 10));
       if (response.statusCode == 401) {
-        handleUnauthorized(); // ← add karo
+        handleUnauthorized();
         return null;
       }
       final result = jsonDecode(response.body);
@@ -65,7 +65,7 @@ class ApiServices {
           )
           .timeout(Duration(seconds: 15));
       if (response.statusCode == 401) {
-        handleUnauthorized(); // ← add karo
+        handleUnauthorized();
         return null;
       }
       print(response.body);
@@ -89,7 +89,7 @@ class ApiServices {
         headers: {"Authorization": "Bearer $token"},
       );
       if (response.statusCode == 401) {
-        handleUnauthorized(); // ← add karo
+        handleUnauthorized();
         return null;
       }
 
@@ -114,7 +114,7 @@ class ApiServices {
         headers: {"Authorization": "bearer $token"},
       );
       if (response.statusCode == 401) {
-        handleUnauthorized(); // ← add karo
+        handleUnauthorized();
         return null;
       }
       final result = jsonDecode(response.body);
@@ -141,7 +141,7 @@ class ApiServices {
           .timeout(Duration(seconds: 10));
 
       if (response.statusCode == 401) {
-        handleUnauthorized(); // ← add karo
+        handleUnauthorized();
         return null;
       }
       print("DATA IS :  ${response.body}");
@@ -168,6 +168,7 @@ class ApiServices {
 
       multipartRequest.fields['meter_id'] = request.meterId.toString();
       multipartRequest.fields['reader_id'] = request.readerId.toString();
+      multipartRequest.fields['meter_type'] = request.meterType;
       multipartRequest.fields['current_reading'] = request.currentReading
           .toString();
 
@@ -191,7 +192,7 @@ class ApiServices {
       );
       final body = await streamed.stream.bytesToString();
       if (streamed.statusCode == 401) {
-        handleUnauthorized(); // ← add karo
+        handleUnauthorized();
         return null;
       }
       print("status code : ${streamed.statusCode}");
@@ -218,7 +219,7 @@ class ApiServices {
         headers: {"Authorization": "bearer $token"},
       );
       if (response.statusCode == 401) {
-        handleUnauthorized(); // ← add karo
+        handleUnauthorized();
         return null;
       }
       print("Status Code: ${response.statusCode}");

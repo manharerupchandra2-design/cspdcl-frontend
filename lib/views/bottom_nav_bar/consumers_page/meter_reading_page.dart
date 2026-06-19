@@ -1,230 +1,4 @@
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-// import 'package:sample1/models/consumer_detail_model/previous_bill.dart';
-// import 'package:sample1/views/bottom_nav_bar/consumers_page/bill_page.dart';
-//
-// import '../../../controllers/consumer_controller/submit_reading_controller.dart';
-// import '../../../models/consumer_model/consumer_model.dart';
-//
-// class MeterReadingPage extends StatelessWidget {
-//   final Consumer consumer;
-//
-//   final PreviousBill previousBill;
-//   MeterReadingPage({
-//     super.key,
-//     required this.consumer,
-//     required this.previousBill,
-//   });
-//
-//   late final SubmitReadingController submitReadingController = Get.put(
-//     SubmitReadingController(consumerId: consumer.id, meterId: consumer.meterId),
-//   );
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: Text("Meter Reading")),
-//       body: SingleChildScrollView(
-//         padding: EdgeInsets.all(16),
-//
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Container(
-//               width: double.infinity,
-//               padding: EdgeInsets.all(16),
-//
-//               decoration: BoxDecoration(
-//                 borderRadius: BorderRadius.circular(16),
-//                 border: Border.all(color: Colors.grey.shade300),
-//               ),
-//
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   Text(
-//                     "Consumer Details",
-//                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-//                   ),
-//
-//                   SizedBox(height: 10),
-//
-//                   Text("Consumer No : ${consumer.consumerNo}"),
-//
-//                   SizedBox(height: 5),
-//
-//                   Text("Name : ${consumer.name}"),
-//
-//                   SizedBox(height: 5),
-//
-//                   Text("Previous Reading : ${previousBill.currentReading}"),
-//                 ],
-//               ),
-//             ),
-//
-//             SizedBox(height: 20),
-//
-//             Text(
-//               "Meter Photo",
-//               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-//             ),
-//
-//             SizedBox(height: 10),
-//
-//             Obx(() {
-//               if (submitReadingController.meterImage.value != null) {
-//                 return ClipRRect(
-//                   borderRadius: BorderRadius.circular(16),
-//                   child: Image.file(
-//                     submitReadingController.meterImage.value!,
-//                     width: double.infinity,
-//                     height: 220,
-//                     fit: BoxFit.cover,
-//                   ),
-//                 );
-//               }
-//
-//               return Container(
-//                 height: 220,
-//                 width: double.infinity,
-//                 decoration: BoxDecoration(
-//                   borderRadius: BorderRadius.circular(16),
-//                   border: Border.all(color: Colors.grey.shade400),
-//                 ),
-//                 child: const Column(
-//                   mainAxisAlignment: MainAxisAlignment.center,
-//                   children: [
-//                     Icon(Icons.camera_alt_outlined, size: 60),
-//                     SizedBox(height: 10),
-//                     Text("No Photo Selected"),
-//                   ],
-//                 ),
-//               );
-//             }),
-//
-//             SizedBox(height: 15),
-//
-//             SizedBox(
-//               width: double.infinity,
-//               height: 50,
-//
-//               child: OutlinedButton.icon(
-//                   onPressed: () {
-//                     submitReadingController.scanMeter();
-//                   },
-//                 icon: const Icon(Icons.camera_alt),
-//                 label: const Text("Scan Meter"),
-//               ),
-//             ),
-//
-//             SizedBox(height: 20),
-//
-//             TextField(
-//               keyboardType: TextInputType.number,
-//               controller: submitReadingController.readController,
-//               decoration: InputDecoration(
-//                 labelText: "Current Reading",
-//
-//                 prefixIcon: Icon(Icons.speed),
-//
-//                 border: OutlineInputBorder(
-//                   borderRadius: BorderRadius.circular(12),
-//                 ),
-//               ),
-//             ),
-//
-//             SizedBox(height: 15),
-//
-//             TextField(
-//               maxLines: 3,
-//
-//               decoration: InputDecoration(
-//                 labelText: "Remark (Optional)",
-//
-//                 border: OutlineInputBorder(
-//                   borderRadius: BorderRadius.circular(12),
-//                 ),
-//               ),
-//             ),
-//
-//             SizedBox(height: 25),
-//
-//             SizedBox(
-//               width: double.infinity,
-//               height: 55,
-//
-//               child: Obx(() {
-//                 return SizedBox(
-//                   width: double.infinity,
-//                   height: 55,
-//                   child: ElevatedButton.icon(
-//                     onPressed: submitReadingController.isLoading.value
-//                         ? null
-//                         : () async {
-//                             await submitReadingController.submitReading();
-//
-//                             Get.snackbar(
-//                               submitReadingController.isSuccess.value
-//                                   ? "Done"
-//                                   : "Error",
-//                               submitReadingController.message.value,
-//                             );
-//                           },
-//
-//                     icon: const Icon(Icons.check),
-//
-//                     label: submitReadingController.isLoading.value
-//                         ? const SizedBox(
-//                             width: 20,
-//                             height: 20,
-//                             child: CircularProgressIndicator(strokeWidth: 2),
-//                           )
-//                         : const Text("Submit Reading"),
-//                   ),
-//                 );
-//               }),
-//             ),
-//
-//             SizedBox(height: 15),
-//
-//             const SizedBox(height: 15),
-//
-//             Obx(() {
-//               return SizedBox(
-//                 width: double.infinity,
-//                 height: 55,
-//
-//                 child: ElevatedButton.icon(
-//                   icon: const Icon(Icons.receipt_long),
-//
-//                   label: Text(
-//                     submitReadingController.billGenerated.value
-//                         ? "Bill Generated"
-//                         : "Generate Bill",
-//                   ),
-//
-//                   onPressed:
-//                       submitReadingController.readingId.value == 0 ||
-//                           submitReadingController.billGenerated.value
-//                       ? null
-//                       : () async {
-//                           await submitReadingController.generateBill();
-//
-//                           final bill =
-//                               submitReadingController.generatedBill.value;
-//
-//                           if (bill != null) {
-//                             Get.offAll(() => GeneratedBillPage(bill: bill));
-//                           }
-//                         },
-//                 ),
-//               );
-//             }),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../controllers/consumer_controller/submit_reading_controller.dart';
@@ -240,7 +14,7 @@ class MeterReadingPage extends StatelessWidget {
   MeterReadingPage({super.key, required this.consumer, this.previousBill});
 
   late final SubmitReadingController ctrl = Get.put(
-    SubmitReadingController(consumerId: consumer.id??0, meterId: consumer.meterId??0),
+    SubmitReadingController(consumerId: consumer.id??0, meterId: consumer.meterId??0, meterType: consumer.meterType??''),
   );
   @override
   Widget build(BuildContext context) {
@@ -252,7 +26,7 @@ class MeterReadingPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── Consumer Info ─────────────────────────
+            //Consumer Info
             InfoCard(
               title: "Consumer Details",
               titleIcon: Icons.person_outline,
@@ -395,7 +169,7 @@ class MeterReadingPage extends StatelessWidget {
 
             Gap.h24,
 
-            // ── Submit Button ─────────────────────────
+            //Submit Button
             Obx(
               () => AppButton(
                 label: "Submit Reading",
@@ -419,7 +193,7 @@ class MeterReadingPage extends StatelessWidget {
 
             Gap.h12,
 
-            // ── Generate Bill Button ──────────────────
+            //Generate Bill Button
             Obx(() {
               final canGenerate =
                   ctrl.readingId.value != 0 && !ctrl.billGenerated.value;

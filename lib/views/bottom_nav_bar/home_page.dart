@@ -1,99 +1,4 @@
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-// import 'package:get_storage/get_storage.dart';
-// import '../../controllers/bottom_nav_controller/bottom_nav_controller.dart';
-// import '../login_page.dart';
-//
-// class HomePage extends StatelessWidget {
-//   const HomePage({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final btmNavController = Get.find<BottomNavController>();
-//     final box = GetStorage();//for drawer
-//
-//     return Obx(
-//       () => Scaffold(
-//         appBar: AppBar(title: Text(btmNavController.title.value)),
-//         drawer: Drawer(
-//           child: Column(
-//             children: [
-//               UserAccountsDrawerHeader(
-//                 accountName: Text(box.read("name")),
-//                 accountEmail: Text(box.read("email")),
-//               ),
-//               Expanded(
-//                 child: ListView(
-//                   children: [
-//                     ListTile(title: Text("Home"), leading: Icon((Icons.home))),
-//                     Divider(height: 1),
-//                     ListTile(
-//                       title: Text("Profile"),
-//                       leading: Icon((Icons.account_box_rounded)),
-//                     ),
-//                     Divider(height: 1),
-//                     ListTile(
-//                       title: Text("Settings"),
-//                       leading: Icon((Icons.settings)),
-//                     ),
-//                     Divider(height: 1),
-//                   ],
-//                 ),
-//               ),
-//
-//               Divider(),
-//
-//               ListTile(
-//                 leading: Icon(Icons.logout),
-//                 title: Text("Logout"),
-//                 onTap: () {
-//                   box.erase();
-//                   Get.offAll(() => LoginPage());
-//                 },
-//               ),
-//             ],
-//           ),
-//         ),
-//         body: IndexedStack(
-//           index: btmNavController.selectedIndex.value,
-//           children: btmNavController.pages,
-//         ),
-//
-//         bottomNavigationBar: BottomNavigationBar(
-//           currentIndex: btmNavController.selectedIndex.value,
-//           type: BottomNavigationBarType.fixed,
-//
-//           onTap: btmNavController.changeIndex,
-//
-//           items: const [
-//             BottomNavigationBarItem(
-//               icon: Icon(Icons.dashboard_outlined),
-//               activeIcon: Icon(Icons.dashboard),
-//               label: "Dashboard",
-//             ),
-//
-//             BottomNavigationBarItem(
-//               icon: Icon(Icons.people_outline),
-//               activeIcon: Icon(Icons.people),
-//               label: "Consumers",
-//             ),
-//
-//             BottomNavigationBarItem(
-//               icon: Icon(Icons.history),
-//               label: "History",
-//             ),
-//
-//             BottomNavigationBarItem(
-//               icon: Icon(Icons.person_outline),
-//               activeIcon: Icon(Icons.person),
-//               label: "Profile",
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -116,7 +21,7 @@ class HomePage extends StatelessWidget {
 
     return Obx(
       () => Scaffold(
-        // ── AppBar ─────────────────────────────────────
+        //AppBar
         appBar: AppBar(
           title: Text(ctrl.title.value),
           actions: [
@@ -127,7 +32,7 @@ class HomePage extends StatelessWidget {
           ],
         ),
 
-        // ── Drawer ─────────────────────────────────────
+        //Drawer
         drawer: Drawer(
           child: Column(
             children: [
@@ -257,13 +162,13 @@ class HomePage extends StatelessWidget {
           ),
         ),
 
-        // ── Body ───────────────────────────────────────
+        //Body
         body: IndexedStack(
           index: ctrl.selectedIndex.value,
           children: ctrl.pages,
         ),
 
-        // ── Bottom Nav ─────────────────────────────────
+        //Bottom Nav
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: ctrl.selectedIndex.value,
           onTap: ctrl.changeIndex,
@@ -294,7 +199,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  // ── Drawer Item Widget ──────────────────────────────
+  //Drawer Item Widget
   Widget _drawerItem({
     required IconData icon,
     required String title,

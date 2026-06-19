@@ -4,12 +4,14 @@ class SetReadingRequest {
   final int meterId;
   final int readerId;
   final int currentReading;
+  final String meterType;
   final File? meterPhoto;
 
   SetReadingRequest({
     required this.meterId,
     required this.readerId,
     required this.currentReading,
+    required this.meterType,
     this.meterPhoto,
   });
 

@@ -9,9 +9,9 @@ import 'app_dimensions.dart';
 class AppTheme {
   AppTheme._();
 
-  // ────────────────────────────────────────────────────────
+
   //  LIGHT THEME
-  // ────────────────────────────────────────────────────────
+
   static ThemeData get light {
     return ThemeData(
       useMaterial3: true,
@@ -36,7 +36,7 @@ class AppTheme {
 
       scaffoldBackgroundColor: AppColors.background,
 
-      // ── AppBar ────────────────────────────────────────
+      //AppBar
       appBarTheme: const AppBarTheme(
         backgroundColor: AppColors.primary,
         foregroundColor: AppColors.textOnPrimary,
@@ -58,7 +58,7 @@ class AppTheme {
         ),
       ),
 
-      // ── Bottom Navigation ─────────────────────────────
+      //  Bottom Navigation
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: AppColors.surface,
         selectedItemColor: AppColors.primary,
@@ -77,7 +77,7 @@ class AppTheme {
         showUnselectedLabels: true,
       ),
 
-      // ── Elevated Button ───────────────────────────────
+      //  Elevated Button
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,
@@ -93,7 +93,7 @@ class AppTheme {
         ),
       ),
 
-      // ── Outlined Button ───────────────────────────────
+      // Outlined Button
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.primary,
@@ -106,7 +106,7 @@ class AppTheme {
         ),
       ),
 
-      // ── Text Button ───────────────────────────────────
+      //  Text Button
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: AppColors.primary,
@@ -115,9 +115,9 @@ class AppTheme {
         ),
       ),
 
-      // ── Card ─────────────────────────────────────────
+      // Card
 
-      // ── Input / TextField ─────────────────────────────
+      // Input / TextField
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.surface,
@@ -156,7 +156,7 @@ class AppTheme {
         suffixIconColor: AppColors.textHint,
       ),
 
-      // ── Chip ─────────────────────────────────────────
+      //  Chip
       chipTheme: ChipThemeData(
         backgroundColor: AppColors.surfaceVariant,
         selectedColor: AppColors.primaryLighter.withOpacity(0.15),
@@ -167,14 +167,14 @@ class AppTheme {
         side: const BorderSide(color: AppColors.border),
       ),
 
-      // ── Divider ───────────────────────────────────────
+      //  Divider
       dividerTheme: const DividerThemeData(
         color: AppColors.divider,
         thickness: 1,
         space: 1,
       ),
 
-      // ── ListTile ──────────────────────────────────────
+      // ListTile
       listTileTheme: ListTileThemeData(
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         shape: RoundedRectangleBorder(borderRadius: AppDimens.br12),
@@ -184,7 +184,7 @@ class AppTheme {
         iconColor: AppColors.primary,
       ),
 
-      // ── Switch ────────────────────────────────────────
+      //  Switch
       switchTheme: SwitchThemeData(
         thumbColor: MaterialStateProperty.resolveWith((states) {
           if (states.contains(MaterialState.selected)) return AppColors.primary;
@@ -198,7 +198,7 @@ class AppTheme {
         }),
       ),
 
-      // ── SnackBar ──────────────────────────────────────
+      //  SnackBar
       snackBarTheme: SnackBarThemeData(
         backgroundColor: AppColors.textPrimary,
         contentTextStyle: AppTextStyles.bodyMedium.copyWith(
@@ -209,22 +209,22 @@ class AppTheme {
         elevation: 4,
       ),
 
-      // ── Dialog ────────────────────────────────────────
 
-      // ── Drawer ────────────────────────────────────────
+
+      //  Drawer
       drawerTheme: const DrawerThemeData(
         backgroundColor: AppColors.surface,
         elevation: 0,
       ),
 
-      // ── Progress Indicator ────────────────────────────
+      //  Progress Indicator
       progressIndicatorTheme: const ProgressIndicatorThemeData(
         color: AppColors.primary,
         linearTrackColor: AppColors.surfaceVariant,
         circularTrackColor: AppColors.surfaceVariant,
       ),
 
-      // ── FloatingActionButton ──────────────────────────
+      //  FloatingActionButton
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: AppColors.accent,
         foregroundColor: AppColors.textOnAccent,

@@ -1,79 +1,8 @@
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-// import 'package:get/get_core/src/get_main.dart';
-// import 'package:get/get_instance/src/extension_instance.dart';
-// import 'package:sample1/utils/app_spacing.dart';
-// import 'package:sample1/utils/custom_button.dart';
-// import 'package:sample1/utils/custom_textfield.dart';
-// import 'package:sample1/views/bottom_nav_bar/home_page.dart';
-// import 'package:sample1/views/signup_page.dart';
-//
-// import '../controllers/auth_controller.dart';
-//
-// class LoginPage extends StatelessWidget {
-//   LoginPage({super.key});
-//
-//   final authController = Get.find<AuthController>();
-//
-//   bool hidePassword = true;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: Text("LoginPage")),
-//       body: Padding(
-//         padding: const EdgeInsets.all(15.0),
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             CustomTextField(
-//               controller: authController.emailController,
-//               hintText: "Email",
-//               prefixIcon: Icons.email,
-//             ),
-//             AppSpacing.h20,
-//             CustomTextField(
-//               controller: authController.passwordController,
-//               hintText: "Password",
-//               prefixIcon: Icons.lock,
-//             ),
-//             AppSpacing.h20,
-//             Obx(
-//               () => CustomButton(
-//                 title: "Login",
-//                 onPressed: () async {
-//                   await authController.login();
-//
-//                   if (authController.isLoginSuccess.value == true) {
-//                     Get.snackbar("Success", authController.message.value);
-//                     Get.offAll(() => HomePage());
-//                   } else {
-//                     Get.snackbar("Error", authController.message.value);
-//                   }
-//                 },
-//                 isLoading: authController.isLoading.value,
-//               ),
-//             ),
-//             AppSpacing.w50,
-//             Align(
-//               alignment: Alignment.centerRight,
-//               child: SizedBox(
-//                 child: TextButton(
-//                   onPressed: () => Get.to(() => SignupPage()),
-//                   child: Text("Don't have an account? Signup"),
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/auth_controller.dart';
-import '../core/theme/theme.dart'; // ✅ ek import
+import '../core/theme/theme.dart';
 import 'bottom_nav_bar/home_page.dart';
 import 'signup_page.dart';
 
@@ -137,7 +66,7 @@ class LoginPage extends StatelessWidget {
 
               Gap.h48,
 
-              // ── Form ────────────────────────────────
+              // Form
               Text("Login", style: AppTextStyles.h1),
               Gap.h24,
 

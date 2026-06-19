@@ -16,7 +16,7 @@ class BillHistoryResponse {
 
 class BillHistoryItem {
   final int billId;
-  final double amount;
+  final double totalAmount;
   final String createdAt;
   final String consumerName;
   final String consumerNo;
@@ -27,7 +27,7 @@ class BillHistoryItem {
 
   BillHistoryItem({
     required this.billId,
-    required this.amount,
+    required this.totalAmount,
     required this.createdAt,
     required this.consumerName,
     required this.consumerNo,
@@ -40,7 +40,7 @@ class BillHistoryItem {
   factory BillHistoryItem.fromJson(Map<String, dynamic> json) {
     return BillHistoryItem(
       billId: json['bill_id'],
-      amount: double.parse(json['amount'].toString()),
+      totalAmount: double.parse(json['total_amount'].toString()),
       createdAt: json['created_at'] ?? '',
       consumerName: json['consumer_name'] ?? '',
       consumerNo: json['consumer_no'] ?? '',

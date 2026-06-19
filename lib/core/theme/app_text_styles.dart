@@ -6,7 +6,7 @@ import 'app_colors.dart';
 class AppTextStyles {
   AppTextStyles._();
 
-  // ── Display ──────────────────────────────────────────────
+  // Display
   static const displayLarge = TextStyle(
     fontSize: 28,
     fontWeight: FontWeight.w800,
@@ -23,7 +23,7 @@ class AppTextStyles {
     height: 1.2,
   );
 
-  // ── Heading ──────────────────────────────────────────────
+  //Heading
   static const h1 = TextStyle(
     fontSize: 22,
     fontWeight: FontWeight.w700,
@@ -53,7 +53,7 @@ class AppTextStyles {
     height: 1.4,
   );
 
-  // ── Body ─────────────────────────────────────────────────
+  //Body
   static const bodyLarge = TextStyle(
     fontSize: 15,
     fontWeight: FontWeight.w400,
@@ -75,7 +75,7 @@ class AppTextStyles {
     height: 1.5,
   );
 
-  // ── Label ────────────────────────────────────────────────
+  // Label
   static const labelLarge = TextStyle(
     fontSize: 13,
     fontWeight: FontWeight.w600,
@@ -97,7 +97,7 @@ class AppTextStyles {
     letterSpacing: 0.5,
   );
 
-  // ── Utility ──────────────────────────────────────────────
+  // Utility
   static const caption = TextStyle(
     fontSize: 11,
     fontWeight: FontWeight.w400,
@@ -125,7 +125,7 @@ class AppTextStyles {
     letterSpacing: 0.2,
   );
 
-  // ── On Primary (white text) ───────────────────────────────
+  // On Primary (white text)
   static const onPrimaryH2 = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.w700,
@@ -140,7 +140,7 @@ class AppTextStyles {
     height: 1.5,
   );
 
-  // ── Amount / Number ──────────────────────────────────────
+  //  Amount / Number
   static const amountLarge = TextStyle(
     fontSize: 28,
     fontWeight: FontWeight.w800,

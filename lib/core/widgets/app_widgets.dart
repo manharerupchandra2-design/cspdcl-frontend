@@ -8,9 +8,9 @@ import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 import '../theme/app_dimensions.dart';
 
-// ══════════════════════════════════════════════════════════
+
 //  1. APP CARD
-// ══════════════════════════════════════════════════════════
+
 class AppCard extends StatelessWidget {
   final Widget child;
   final EdgeInsetsGeometry? padding;
@@ -36,9 +36,7 @@ class AppCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: color ?? AppColors.surface,
           borderRadius: AppDimens.br16,
-          border: hasBorder
-              ? Border.all(color: AppColors.divider)
-              : null,
+          border: hasBorder ? Border.all(color: AppColors.divider) : null,
           boxShadow: [
             BoxShadow(
               color: AppColors.shadow,
@@ -53,9 +51,9 @@ class AppCard extends StatelessWidget {
   }
 }
 
-// ══════════════════════════════════════════════════════════
+
 //  2. GRADIENT HEADER CARD (Dashboard welcome card)
-// ══════════════════════════════════════════════════════════
+
 class GradientCard extends StatelessWidget {
   final Widget child;
   final List<Color>? colors;
@@ -93,9 +91,8 @@ class GradientCard extends StatelessWidget {
   }
 }
 
-// ══════════════════════════════════════════════════════════
 //  3. STAT CARD (Dashboard count cards)
-// ══════════════════════════════════════════════════════════
+
 class StatCard extends StatelessWidget {
   final String title;
   final String value;
@@ -121,7 +118,10 @@ class StatCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: AppDimens.br16,
-          border: Border.all(color: color.withOpacity(0.4), width: 1.5), // ← color border
+          border: Border.all(
+            color: color.withOpacity(0.4),
+            width: 1.5,
+          ), // ← color border
           boxShadow: [
             BoxShadow(
               color: color.withOpacity(0.08), // ← colored shadow bhi
@@ -142,7 +142,10 @@ class StatCard extends StatelessWidget {
               child: Icon(icon, color: color, size: AppDimens.iconMd),
             ),
             Gap.h12,
-            Text(value, style: AppTextStyles.amountMedium.copyWith(color: color)),
+            Text(
+              value,
+              style: AppTextStyles.amountMedium.copyWith(color: color),
+            ),
             Gap.h4,
             Text(title, style: AppTextStyles.caption),
           ],
@@ -152,9 +155,8 @@ class StatCard extends StatelessWidget {
   }
 }
 
-// ══════════════════════════════════════════════════════════
+
 //  4. ACTION CARD (Quick action grid)
-// ══════════════════════════════════════════════════════════
 class ActionCard extends StatelessWidget {
   final String title;
   final IconData icon;
@@ -207,9 +209,7 @@ class ActionCard extends StatelessWidget {
   }
 }
 
-// ══════════════════════════════════════════════════════════
 //  5. INFO CARD (Consumer/Meter detail sections)
-// ══════════════════════════════════════════════════════════
 class InfoCard extends StatelessWidget {
   final String title;
   final IconData? titleIcon;
@@ -242,8 +242,11 @@ class InfoCard extends StatelessWidget {
                     color: AppColors.primary.withOpacity(0.08),
                     borderRadius: AppDimens.br6,
                   ),
-                  child: Icon(titleIcon, color: AppColors.primary,
-                      size: AppDimens.iconSm),
+                  child: Icon(
+                    titleIcon,
+                    color: AppColors.primary,
+                    size: AppDimens.iconSm,
+                  ),
                 ),
                 Gap.w10,
               ],
@@ -291,8 +294,7 @@ class _InfoRowWidget extends StatelessWidget {
             width: 120,
             child: Text(row.label, style: AppTextStyles.labelLarge),
           ),
-          const Text(' : ',
-              style: TextStyle(color: AppColors.textHint)),
+          const Text(' : ', style: TextStyle(color: AppColors.textHint)),
           Expanded(
             child: Text(
               row.value,
@@ -308,9 +310,9 @@ class _InfoRowWidget extends StatelessWidget {
   }
 }
 
-// ══════════════════════════════════════════════════════════
+
 //  6. APP BUTTON (Primary)
-// ══════════════════════════════════════════════════════════
+
 class AppButton extends StatelessWidget {
   final String label;
   final VoidCallback? onPressed;
@@ -347,10 +349,7 @@ class AppButton extends StatelessWidget {
         : Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (icon != null) ...[
-                Icon(icon, size: AppDimens.iconSm),
-                Gap.w8,
-              ],
+              if (icon != null) ...[Icon(icon, size: AppDimens.iconSm), Gap.w8],
               Text(label),
             ],
           );
@@ -390,9 +389,9 @@ class AppButton extends StatelessWidget {
   }
 }
 
-// ══════════════════════════════════════════════════════════
+
 //  7. STATUS BADGE
-// ══════════════════════════════════════════════════════════
+
 class StatusBadge extends StatelessWidget {
   final String status;
   final String? label;
@@ -401,9 +400,9 @@ class StatusBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color   = AppColors.statusColor(status);
+    final color = AppColors.statusColor(status);
     final bgColor = AppColors.statusBgColor(status);
-    final text    = label ?? _formatStatus(status);
+    final text = label ?? _formatStatus(status);
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -416,27 +415,29 @@ class StatusBadge extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            width: 6, height: 6,
+            width: 6,
+            height: 6,
             decoration: BoxDecoration(color: color, shape: BoxShape.circle),
           ),
           Gap.w6,
-          Text(text,
-              style: AppTextStyles.labelMedium.copyWith(color: color)),
+          Text(text, style: AppTextStyles.labelMedium.copyWith(color: color)),
         ],
       ),
     );
   }
 
   String _formatStatus(String s) {
-    return s.replaceAll('_', ' ').split(' ')
+    return s
+        .replaceAll('_', ' ')
+        .split(' ')
         .map((w) => w.isEmpty ? '' : '${w[0].toUpperCase()}${w.substring(1)}')
         .join(' ');
   }
 }
 
-// ══════════════════════════════════════════════════════════
+
 //  8. APP TEXT FIELD
-// ══════════════════════════════════════════════════════════
+
 class AppTextField extends StatelessWidget {
   final TextEditingController? controller;
   final String label;
@@ -468,27 +469,26 @@ class AppTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller:    controller,
-      obscureText:   obscureText,
-      keyboardType:  keyboardType,
-      validator:     validator,
-      onChanged:     onChanged,
-      maxLines:      maxLines,
-      readOnly:      readOnly,
-      style:         AppTextStyles.bodyMedium,
+      controller: controller,
+      obscureText: obscureText,
+      keyboardType: keyboardType,
+      validator: validator,
+      onChanged: onChanged,
+      maxLines: maxLines,
+      readOnly: readOnly,
+      style: AppTextStyles.bodyMedium,
       decoration: InputDecoration(
-        labelText:   label,
-        hintText:    hint,
-        prefixIcon:  prefixIcon != null ? Icon(prefixIcon) : null,
-        suffixIcon:  suffixIcon
+        labelText: label,
+        hintText: hint,
+        prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
+        suffixIcon: suffixIcon,
       ),
     );
   }
 }
 
-// ══════════════════════════════════════════════════════════
 //  9. SECTION HEADER
-// ══════════════════════════════════════════════════════════
+
 class SectionHeader extends StatelessWidget {
   final String title;
   final String? action;
@@ -508,18 +508,15 @@ class SectionHeader extends StatelessWidget {
       children: [
         Text(title, style: AppTextStyles.h2),
         if (action != null)
-          TextButton(
-            onPressed: onAction,
-            child: Text(action!),
-          ),
+          TextButton(onPressed: onAction, child: Text(action!)),
       ],
     );
   }
 }
 
-// ══════════════════════════════════════════════════════════
+
 //  10. EMPTY STATE
-// ══════════════════════════════════════════════════════════
+
 class EmptyState extends StatelessWidget {
   final String message;
   final String? subtitle;
@@ -556,8 +553,11 @@ class EmptyState extends StatelessWidget {
             Text(message, style: AppTextStyles.h3, textAlign: TextAlign.center),
             if (subtitle != null) ...[
               Gap.h8,
-              Text(subtitle!, style: AppTextStyles.bodySmall,
-                  textAlign: TextAlign.center),
+              Text(
+                subtitle!,
+                style: AppTextStyles.bodySmall,
+                textAlign: TextAlign.center,
+              ),
             ],
             if (actionLabel != null) ...[
               Gap.h24,
@@ -574,9 +574,8 @@ class EmptyState extends StatelessWidget {
   }
 }
 
-// ══════════════════════════════════════════════════════════
 //  11. LOADING STATE
-// ══════════════════════════════════════════════════════════
+
 class LoadingState extends StatelessWidget {
   final String? message;
   const LoadingState({super.key, this.message});
@@ -598,9 +597,9 @@ class LoadingState extends StatelessWidget {
   }
 }
 
-// ══════════════════════════════════════════════════════════
+
 //  12. ERROR STATE
-// ══════════════════════════════════════════════════════════
+
 class ErrorState extends StatelessWidget {
   final String message;
   final VoidCallback? onRetry;
@@ -621,13 +620,18 @@ class ErrorState extends StatelessWidget {
                 color: AppColors.errorLight,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(Icons.error_outline,
-                  color: AppColors.error, size: 40),
+              child: const Icon(
+                Icons.error_outline,
+                color: AppColors.error,
+                size: 40,
+              ),
             ),
             Gap.h16,
-            Text(message,
-                style: AppTextStyles.bodyMedium,
-                textAlign: TextAlign.center),
+            Text(
+              message,
+              style: AppTextStyles.bodyMedium,
+              textAlign: TextAlign.center,
+            ),
             if (onRetry != null) ...[
               Gap.h20,
               AppButton(

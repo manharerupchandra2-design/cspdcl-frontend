@@ -44,36 +44,36 @@ class AppDimens {
   static final br24 = BorderRadius.circular(r24);
   static final brFull = BorderRadius.circular(rFull);
 
-  // ── Button ───────────────────────────────────────────────
+  // ── Button
   static const buttonHeight = 52.0;
   static const buttonHeightSm = 42.0;
   static const buttonHeightLg = 58.0;
 
-  // ── AppBar ───────────────────────────────────────────────
+  // ── AppBar
   static const appBarHeight = 60.0;
 
-  // ── Card ─────────────────────────────────────────────────
+  // ── Card
   static const cardPadding = EdgeInsets.all(16.0);
   static const cardPaddingSm = EdgeInsets.all(12.0);
 
-  // ── Page ─────────────────────────────────────────────────
+  // ── Page
   static const pagePadding = EdgeInsets.all(16.0);
   static const pageHPadding = EdgeInsets.symmetric(horizontal: 16.0);
 
-  // ── Icon ─────────────────────────────────────────────────
+  // ── Icon
   static const iconSm = 18.0;
   static const iconMd = 22.0;
   static const iconLg = 28.0;
   static const iconXl = 36.0;
   static const iconXxl = 48.0;
 
-  // ── Avatar ───────────────────────────────────────────────
+  // ── Avatar
   static const avatarSm = 32.0;
   static const avatarMd = 44.0;
   static const avatarLg = 56.0;
 }
 
-// ── Gaps (widget shortcuts) ───────────────────────────────────
+// ── Gaps (widget shortcuts)
 class Gap {
   static const h2 = SizedBox(height: 2);
   static const h3 = SizedBox(height: 3);

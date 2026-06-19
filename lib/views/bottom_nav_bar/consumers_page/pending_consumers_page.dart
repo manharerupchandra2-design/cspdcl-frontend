@@ -25,7 +25,7 @@ class PendingConsumersPage extends StatelessWidget {
 
         if (ctrl.pendingConsumers.isEmpty) {
           return const EmptyState(
-            message: "All readings done for today! 🎉",
+            message: "All readings done for today!",
             icon: Icons.check_circle_outline,
           );
         }

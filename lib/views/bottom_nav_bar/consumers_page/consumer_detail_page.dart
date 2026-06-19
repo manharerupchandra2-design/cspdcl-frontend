@@ -234,7 +234,7 @@ class ConsumerDetailPage extends StatelessWidget {
         padding: AppDimens.pagePadding,
         child: Column(
           children: [
-            // ── Consumer Info ─────────────────────────
+            //Consumer Info
             InfoCard(
               title: "Consumer Information",
               titleIcon: Icons.person_outline,
@@ -248,7 +248,7 @@ class ConsumerDetailPage extends StatelessWidget {
 
             Gap.h12,
 
-            // ── Meter Info ────────────────────────────
+            //Meter Info
             InfoCard(
               title: "Meter Information",
               titleIcon: Icons.electric_meter_outlined,
@@ -304,39 +304,7 @@ class ConsumerDetailPage extends StatelessWidget {
                       ),
               );
             }),
-
             Gap.h12,
-            // Obx(() {
-            //   final subReadingController = Get.find<SubmitReadingController>();
-            //   final bill = ctrl.previousBill.value;
-            //   return subReadingController.billGenerated.value
-            //       ? TextButton(
-            //           onPressed: () {
-            //
-            //             Get.off(
-            //               () => MeterReadingPage(
-            //                 consumer: consumer,
-            //                 previousBill: bill,
-            //               ),
-            //             );
-            //           },
-            //           child: Text("Bill Not Yet?"),
-            //         )
-            //       : const SizedBox();
-            // }),
-
-            //Generate Bill
-            // AppButton(
-            //   label: "Generate Bill",
-            //   icon: Icons.receipt_long,
-            //   isOutlined: true,
-            //   onPressed: (){
-            //     final submitReadingController = Get.find<SubmitReadingController>();
-            //     if(submitReadingController.isSuccess.value=true){
-            //
-            //     }
-            //   }, // enable karo jab reading ho jaaye
-            // ),
           ],
         ),
       ),

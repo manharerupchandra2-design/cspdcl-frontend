@@ -25,7 +25,7 @@ class ProfilePage extends StatelessWidget {
           children: [
             Gap.h20,
 
-            // ── Avatar + Name ───────────────────────────
+            //Avatar + Name
             GradientCard(
               child: Row(
                 children: [
@@ -79,7 +79,7 @@ class ProfilePage extends StatelessWidget {
 
             Gap.h20,
 
-            // ── Profile Info ────────────────────────────
+            //Profile Info
             InfoCard(
               title: "Personal Information",
               titleIcon: Icons.person_outline,
@@ -93,7 +93,7 @@ class ProfilePage extends StatelessWidget {
 
             Gap.h12,
 
-            // ── App Info ────────────────────────────────
+            //App Info
             InfoCard(
               title: "App Information",
               titleIcon: Icons.info_outline,
@@ -129,7 +129,7 @@ class ProfilePage extends StatelessWidget {
 
             Gap.h24,
 
-            // ── Logout Button ───────────────────────────
+            //Logout Button
             AppButton(
               label: "Logout",
               icon: Icons.logout,

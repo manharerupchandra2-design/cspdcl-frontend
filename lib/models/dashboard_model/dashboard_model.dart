@@ -15,34 +15,14 @@ class DashboardResponse {
   }
 }
 
-// class DashboardData {
-//   final int totalConsumers;
-//   final int totalReadings;
-//   final int totalBills;
-//
-//   DashboardData({
-//     required this.totalConsumers,
-//     required this.totalReadings,
-//     required this.totalBills,
-//   });
-//
-//   factory DashboardData.fromJson(Map<String, dynamic> json) {
-//     return DashboardData(
-//       totalConsumers: json['total_consumers'],
-//       totalReadings: json['total_readings'],
-//       totalBills: json['total_bills'],
-//     );
-//   }
-// }
-
 class DashboardData {
   final int totalConsumers;
   final int totalReadings;
   final int totalBills;
-  final int todayReadings;      // ← add
-  final int todayBills;         // ← add
-  final int pendingToday;       // ← add
-  final List<RecentReading> recentReadings; // ← add
+  final int todayReadings;
+  final int todayBills;
+  final int pendingToday;
+  final List<RecentReading> recentReadings;
 
   DashboardData({
     required this.totalConsumers,

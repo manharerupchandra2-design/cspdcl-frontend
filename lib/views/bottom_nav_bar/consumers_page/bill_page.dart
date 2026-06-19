@@ -29,7 +29,7 @@ class _GeneratedBillPageState extends State<GeneratedBillPage> {
         "Due Date: ${widget.bill.dueDate}"
         "Please pay before due date.";
 
-    // smsto: try karo
+    // smsto:
     final Uri smsUri = Uri.parse(
       "smsto:$mobile?body=${Uri.encodeComponent(body)}",
     );
@@ -37,7 +37,6 @@ class _GeneratedBillPageState extends State<GeneratedBillPage> {
     if (await canLaunchUrl(smsUri)) {
       await launchUrl(smsUri, mode: LaunchMode.externalApplication);
     } else {
-      // Fallback — intent
       final Uri fallback = Uri.parse("sms:$mobile");
       try {
         await launchUrl(fallback, mode: LaunchMode.externalApplication);

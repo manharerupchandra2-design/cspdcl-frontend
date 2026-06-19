@@ -152,20 +152,6 @@ class _ConsumerCard extends StatelessWidget {
                 ],
               ),
             ),
-
-            // ── Status + Arrow ───────────────────────
-            // Column(
-            //   crossAxisAlignment: CrossAxisAlignment.end,
-            //   children: [
-            //     StatusBadge(status: consumer.status ?? "pending"),
-            //     Gap.h8,
-            //     const Icon(
-            //       Icons.arrow_forward_ios,
-            //       size: 14,
-            //       color: AppColors.textHint,
-            //     ),
-            //   ],
-            // ),
           ],
         ),
       ),

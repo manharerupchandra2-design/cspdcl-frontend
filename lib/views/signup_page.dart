@@ -84,7 +84,7 @@ class SignupPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ── Back Button ──────────────────────────
+              //Back Button
               IconButton(
                 onPressed: () => Get.back(),
                 icon: const Icon(Icons.arrow_back_ios_new),
@@ -93,7 +93,7 @@ class SignupPage extends StatelessWidget {
 
               Gap.h16,
 
-              // ── Heading ──────────────────────────────
+              //  Heading
               Text("Create Account", style: AppTextStyles.displayMedium),
               Gap.h4,
               Text(
@@ -103,7 +103,7 @@ class SignupPage extends StatelessWidget {
 
               Gap.h32,
 
-              // ── Fields ───────────────────────────────
+              // Fields
               AppTextField(
                 controller: authController.nameController,
                 label: "Full Name",

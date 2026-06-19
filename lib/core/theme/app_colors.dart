@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._();
 
-  // ── Brand ────────────────────────────────────────────────
+  // ── Brand
   static const primary        = Color(0xFF0A2647); // Deep navy
   static const primaryLight   = Color(0xFF144272); // Medium navy
   static const primaryLighter = Color(0xFF205295); // Light navy
@@ -12,7 +12,7 @@ class AppColors {
   static const accentDark     = Color(0xFFB8860B); // Dark gold
   static const accentLight    = Color(0xFFFFF0A0); // Pale gold
 
-  // ── Status ───────────────────────────────────────────────
+  // ── Status
   static const success        = Color(0xFF1B9C52);
   static const successLight   = Color(0xFFD6F5E3);
   static const warning        = Color(0xFFE78B10);
@@ -22,7 +22,7 @@ class AppColors {
   static const info           = Color(0xFF1565C0);
   static const infoLight      = Color(0xFFDCEAFF);
 
-  // ── Neutral ──────────────────────────────────────────────
+  // ── Neutral
   static const background     = Color(0xFFF4F6FA);
   static const surface        = Color(0xFFFFFFFF);
   static const surfaceVariant = Color(0xFFEEF1F8);
@@ -30,7 +30,7 @@ class AppColors {
   static const border         = Color(0xFFCDD5E0);
   static const shadow         = Color(0x1A0A2647);
 
-  // ── Text ─────────────────────────────────────────────────
+  // ── Text
   static const textPrimary    = Color(0xFF0D1B2A);
   static const textSecondary  = Color(0xFF4A5568);
   static const textHint       = Color(0xFF9AA5B4);
@@ -38,7 +38,7 @@ class AppColors {
   static const textOnPrimary  = Color(0xFFFFFFFF);
   static const textOnAccent   = Color(0xFF0A2647);
 
-  // ── Gradients ────────────────────────────────────────────
+  // ── Gradients
   static const gradientPrimary = LinearGradient(
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
