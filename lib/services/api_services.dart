@@ -23,7 +23,11 @@ import 'package:mime/mime.dart';
 
 import '../models/dashboard_model/dashboard_model.dart';
 import '../views/login_page.dart';
-
+class AlreadyReadException implements Exception {
+  final String message;
+  final Map<String, dynamic>? existingReading;
+  AlreadyReadException(this.message, this.existingReading);
+}
 class ApiServices {
   static const String baseUrl = "https://cspdcl-backend.onrender.com/api";
   static final box = GetStorage();
@@ -158,9 +162,10 @@ class ApiServices {
   }
 
   static Future<SetReadingResponse?> setReading(
-    int consumerId,
-    SetReadingRequest request,
-  ) async {
+      int consumerId,
+      SetReadingRequest request, {
+        bool forceSubmit = false,
+      }) async {
     try {
       final uri = Uri.parse("$baseUrl/readings/$consumerId");
 
@@ -171,6 +176,10 @@ class ApiServices {
       multipartRequest.fields['meter_type'] = request.meterType;
       multipartRequest.fields['current_reading'] = request.currentReading
           .toString();
+
+      if (forceSubmit) {
+        multipartRequest.fields['force_submit'] = 'true';
+      }
 
       // Photo
       if (request.meterPhoto != null) {
@@ -199,6 +208,13 @@ class ApiServices {
       print("Body : $body");
 
       final result = jsonDecode(body);
+
+      if (streamed.statusCode == 409 && result['code'] == 'ALREADY_READ_THIS_MONTH') {
+        throw AlreadyReadException(
+          result['message'] ?? "Already recorded for this month",
+          result['existing_reading'],
+        );
+      }
 
       if (streamed.statusCode == 200 && result['success'] == true) {
         return SetReadingResponse.fromJson(result);

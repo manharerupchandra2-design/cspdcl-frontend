@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:sample1/controllers/controller_binder.dart';
 import '../../controllers/bottom_nav_controller/bottom_nav_controller.dart';
 import '../../controllers/consumer_controller/bill_history_controller.dart';
 import '../../controllers/consumer_controller/consumer_list_controller.dart';
@@ -16,6 +17,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ensureControllersInitialized();
     final ctrl = Get.find<BottomNavController>();
     final box = GetStorage();
 

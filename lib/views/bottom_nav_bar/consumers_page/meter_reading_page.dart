@@ -171,12 +171,43 @@ class MeterReadingPage extends StatelessWidget {
 
             //Submit Button
             Obx(
-              () => AppButton(
+                  () => AppButton(
                 label: "Submit Reading",
                 icon: Icons.check_circle_outline,
                 isLoading: ctrl.isLoading.value,
                 onPressed: () async {
                   await ctrl.submitReading();
+
+                  if (ctrl.needsForceConfirm.value) {
+                    final confirm = await Get.dialog<bool>(
+                      AlertDialog(
+                        title: const Text("⚠️ Alert"),
+                        content: Text(
+                          "${ctrl.message.value}",style: AppTextStyles.h2,
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Get.back(result: false),
+                            child: const Text("Cancel"),
+                          ),
+                          TextButton(
+                            onPressed: () => Get.back(result: true),
+                            child: const Text(
+                              "Submit again",
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+
+                    if (confirm == true) {
+                      await ctrl.submitReading(force: true);
+                    } else {
+                      return;
+                    }
+                  }
+
                   Get.snackbar(
                     ctrl.isSuccess.value ? "Done ✓" : "Error",
                     ctrl.message.value,

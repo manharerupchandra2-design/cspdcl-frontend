@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:sample1/controllers/controller_binder.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../controllers/bottom_nav_controller/bottom_nav_controller.dart';
 import '../../../controllers/dashboard_controller/dashboard_controller.dart';
@@ -195,6 +196,7 @@ class _GeneratedBillPageState extends State<GeneratedBillPage> {
               label: "Go to Dashboard",
               icon: Icons.dashboard_outlined,
               onPressed: () async {
+                ensureControllersInitialized();
                 await Get.find<DashboardController>().getDashboard();
                 Get.find<BottomNavController>().selectedIndex(0);
                 Get.offAll(() => HomePage());

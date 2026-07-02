@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sample1/controllers/controller_binder.dart';
 import '../../../controllers/consumer_controller/consumer_list_controller.dart';
 import '../../../core/theme/theme.dart';
 import 'consumer_detail_page.dart';
@@ -21,7 +22,7 @@ class ConsumersPage extends StatelessWidget {
             child: Column(
               children: [
                 AppTextField(
-                  controller: searchController, // ✅ controller ka use
+                  controller: searchController,
                   label: "Search Consumer",
                   prefixIcon: Icons.search,
                   onChanged: ctrl.searchConsumer,

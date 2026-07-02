@@ -12,6 +12,7 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final ctrl = Get.find<DashboardController>();
     final navCtrl = Get.find<BottomNavController>();
     final box = GetStorage();

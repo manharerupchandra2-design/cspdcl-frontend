@@ -22,6 +22,10 @@ class SubmitReadingController extends GetxController {
   RxBool isBillLoading = false.obs;
   RxBool billGenerated = false.obs;
 
+
+  RxBool needsForceConfirm = false.obs;
+  Rxn<Map<String, dynamic>> existingReadingInfo = Rxn<Map<String, dynamic>>();
+
   Rxn<BillData> generatedBill = Rxn<BillData>();
 
   final readController = TextEditingController();
@@ -36,12 +40,10 @@ class SubmitReadingController extends GetxController {
     required this.meterType,
   });
 
-  Future<void> submitReading() async {
+  Future<void> submitReading({bool force = false}) async {
     try {
-      print("Consumer Id : $consumerId");
-      print("MeterId : $meterId");
-      print("Meter Type : $meterType");
       isLoading.value = true;
+      needsForceConfirm.value = false; // reset
 
       final reading = int.tryParse(readController.text);
 
@@ -60,19 +62,24 @@ class SubmitReadingController extends GetxController {
         meterPhoto: meterImage.value,
       );
 
-      final response = await ApiServices.setReading(consumerId, request);
+      final response = await ApiServices.setReading(
+        consumerId,
+        request,
+        forceSubmit: force,
+      );
 
       readingId.value = response?.readingId ?? 0;
-
       message.value = response?.message ?? '';
-
       isSuccess.value = response?.success ?? false;
       readController.clear();
+    } on AlreadyReadException catch (e) {
+      needsForceConfirm.value = true;
+      existingReadingInfo.value = e.existingReading;
+      message.value = e.message;
+      isSuccess.value = false;
     } catch (e) {
       isSuccess.value = false;
-
       message.value = e.toString();
-
       print(message.value);
     } finally {
       isLoading.value = false;
@@ -131,7 +138,7 @@ class SubmitReadingController extends GetxController {
         billGenerated.value = true;
         Get.snackbar(
           "Done ✓",
-          message.value,
+          "Bill generated!",
           backgroundColor: AppColors.successLight,
           colorText: AppColors.success,
         );

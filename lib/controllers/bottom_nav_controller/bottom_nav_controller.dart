@@ -6,8 +6,15 @@ import '../../views/bottom_nav_bar/dashboard_page.dart';
 import '../../views/bottom_nav_bar/history_page.dart';
 import '../consumer_controller/bill_history_controller.dart';
 import '../consumer_controller/reading_history_controller.dart';
+import '../controller_binder.dart';
 
 class BottomNavController extends GetxController {
+  @override
+  void onInit() {
+    super.onInit();
+    ensureControllersInitialized();
+  }
+
   final List<Widget> pages = [
     const DashboardPage(),
     const ConsumersPage(),
